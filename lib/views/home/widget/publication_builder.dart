@@ -25,8 +25,6 @@ class PublicationBuilder extends StatefulWidget {
 }
 
 class _PublicationBuilderState extends State<PublicationBuilder> {
-  final ScrollController _controller = ScrollController();
-
   bool _isLoading = false;
   int range = 8;
 

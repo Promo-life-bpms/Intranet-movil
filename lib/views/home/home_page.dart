@@ -44,7 +44,6 @@ class _HomeState extends State<HomePage> {
   late List<BirthdayModel>? _brithdayModel = [];
   late List<UserModel>? _userlModel = [];
   late List<PublicationModel>? _publicationModel = [];
-  late List<PublicationModel>? _publicationModelToLike = [];
 
   static List<BirthdayModel>? _brithdayList = [];
   static List<UserModel>? _userList = [];
@@ -69,7 +68,7 @@ class _HomeState extends State<HomePage> {
     // ignore: prefer_is_empty
     if (widget.userData == [] ||
         widget.userData == null ||
-        widget.userData!.length == 0) {
+        widget.userData!.isEmpty) {
       _getData();
     } else {
       _userList = widget.userData;
@@ -78,7 +77,7 @@ class _HomeState extends State<HomePage> {
     // ignore: prefer_is_empty
     if (widget.birthdayData == [] ||
         widget.birthdayData == null ||
-        widget.birthdayData!.length == 0) {
+        widget.birthdayData!.isEmpty) {
       _getBirthdayData();
     } else {
       _brithdayList = widget.birthdayData;
@@ -87,7 +86,7 @@ class _HomeState extends State<HomePage> {
     // ignore: prefer_is_empty
     if (widget.communiqueData == [] ||
         widget.communiqueData == null ||
-        widget.communiqueData!.length == 0) {
+        widget.communiqueData!.isEmpty) {
       _getCommuniqueData();
     } else {
       _communiqueList = widget.communiqueData;
@@ -111,7 +110,6 @@ class _HomeState extends State<HomePage> {
     _publicationModel =
         (await ApiPublicationService().getPublication(token.toString()))!
             .cast<PublicationModel>();
-    _publicationModelToLike = _publicationModel;
 
     setState(() {
       _userList = _userlModel;
@@ -221,7 +219,7 @@ class _HomeState extends State<HomePage> {
                   // ignore: prefer_is_empty
                   _communiqueList == null ||
                           _communiqueList!.isEmpty ||
-                          _communiqueList!.length == 0
+                          _communiqueList!.isEmpty
                       ? const Padding(padding: EdgeInsets.zero)
                       : Column(
                           children: [

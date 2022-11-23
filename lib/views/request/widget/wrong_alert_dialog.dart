@@ -65,14 +65,15 @@ class WrongAlertDialog {
                             height: 60,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: ColorIntranetConstants
-                                    .primaryColorNormal, // background
-                                onPrimary: Colors.white, // foreground
+                                foregroundColor: Colors.white,
+                                backgroundColor: ColorIntranetConstants
+                                    .primaryColorNormal, // foreground
                               ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text(StringIntranetConstants.buttonAcept),
+                              child: const Text(
+                                  StringIntranetConstants.buttonAcept),
                             ),
                           )),
                     ],

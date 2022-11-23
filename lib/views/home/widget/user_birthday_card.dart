@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/birthday.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/profile/employee_profile.dart';
-import 'package:lottie/lottie.dart';
 
 class UserBirthdayCard extends StatefulWidget {
   const UserBirthdayCard({Key? key, required this.birthdayData})

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/approve_request.dart';
 import 'package:intranet_movil/views/manager/module/request_details.dart';
 import 'package:intranet_movil/views/request/modules/no_request.dart';
-import 'package:intranet_movil/widget/skeletons/list_view_company.dart';
 
 class ApprovedManagerRequestPage extends StatefulWidget {
   const ApprovedManagerRequestPage({Key? key, required this.approvedModel})
@@ -42,19 +41,38 @@ class _ApprovedManagerRequestState extends State<ApprovedManagerRequestPage> {
                                       RequestDetail(approvedRequestData: [
                                         ApprovedRequestModel(
                                             id: widget.approvedModel[index].id,
-                                            employeeID: widget.approvedModel[index].employeeID,
-                                            fullname: widget.approvedModel[index].fullname,
-                                            typeRequest: widget.approvedModel[index].typeRequest,
-                                            revealName: widget.approvedModel[index].revealName,
-                                            payment: widget.approvedModel[index].payment,
-                                            start: widget.approvedModel[index].start,
-                                            end:widget.approvedModel[index].end,
-                                            reason: widget.approvedModel[index].reason,
-                                            directManagerId: widget.approvedModel[index].directManagerId,
-                                            directManagerStatus: widget.approvedModel[index].directManagerStatus,
-                                            humanResourcesStatus: widget.approvedModel[index].humanResourcesStatus,
-                                            visible: widget.approvedModel[index].visible,
-                                            days: widget.approvedModel[index].days)
+                                            employeeID: widget
+                                                .approvedModel[index]
+                                                .employeeID,
+                                            fullname: widget
+                                                .approvedModel[index].fullname,
+                                            typeRequest: widget
+                                                .approvedModel[index]
+                                                .typeRequest,
+                                            revealName: widget
+                                                .approvedModel[index]
+                                                .revealName,
+                                            payment: widget
+                                                .approvedModel[index].payment,
+                                            start: widget
+                                                .approvedModel[index].start,
+                                            end:
+                                                widget.approvedModel[index].end,
+                                            reason: widget
+                                                .approvedModel[index].reason,
+                                            directManagerId: widget
+                                                .approvedModel[index]
+                                                .directManagerId,
+                                            directManagerStatus: widget
+                                                .approvedModel[index]
+                                                .directManagerStatus,
+                                            humanResourcesStatus: widget
+                                                .approvedModel[index]
+                                                .humanResourcesStatus,
+                                            visible: widget
+                                                .approvedModel[index].visible,
+                                            days: widget
+                                                .approvedModel[index].days)
                                       ])));
                             },
                             child: Column(
@@ -133,5 +151,4 @@ class _ApprovedManagerRequestState extends State<ApprovedManagerRequestPage> {
             ],
           );
   }
-
 }

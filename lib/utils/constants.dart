@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/about.dart';
 
 class ApiIntranetConstans {
-
   //Servidores de pruebas
-   /*  static String baseUrl = 'https://intranet.kaths.com.mx/';  */   
+  /*  static String baseUrl = 'https://intranet.kaths.com.mx/';  */
 
 /*   static String baseUrl = 'https://dev-intranet.promolife.lat/'; 
  */
   //Servidor de produccion
-  static String baseUrl = 'https://intranet.promolife.lat/'; 
- 
-  static String loginEndpoint = 'api/login' ;
-  static String getUser = 'api/getUser/' ;
-  static String getRequest = 'api/getRequest/' ;
-  static String postRequestEndpoint = 'api/postRequestV11/' ;
-  static String manualEndpoint = 'api/manuals' ;
+  static String baseUrl = 'https://intranet.promolife.lat/';
+
+  static String loginEndpoint = 'api/login';
+  static String getUser = 'api/getUser/';
+  static String getRequest = 'api/getRequest/';
+  static String postRequestEndpoint = 'api/postRequestV11/';
+  static String manualEndpoint = 'api/manuals';
   static String monthEmployeeEndpoint = 'api/month-employees/';
   static String monthAniveraryEndpoint = 'api/month-anniversaries/';
   static String monthBirthdayEndpoint = 'api/month-birthdays/';
@@ -42,11 +41,9 @@ class ApiIntranetConstans {
   static String getRhRequest = 'api/getRhRequest';
   static String postManagerRequest = 'api/postManagerRequest';
   static String postRhRequest = 'api/postRhRequest';
-  
 }
 
 class StringIntranetConstants {
-
   /* General */
   static const homePage = "Inicio";
   static const aboutPage = "Acerca de";
@@ -70,13 +67,11 @@ class StringIntranetConstants {
   /* RH */
   static const rhApproveRequest = "Autorizar solicitudes";
 
-
   /* Admin */
   static const adminOrganization = "Organización";
   static const adminUsers = "Managers";
   static const adminManagers = "Usuarios";
-  
-  
+
   static const requestCreatePage = "Crear solicitud";
   static const requestApprovedPage = "Aprobadas";
   static const requestPendingPage = "Pendientes";

@@ -32,11 +32,12 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
                 children: [
                   const Text(
                     "Tipo de solicitud ",
-                    style: TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
                   ),
                   const Padding(padding: EdgeInsets.only(left: 8)),
                   Text(widget.approvedRequestData[0].typeRequest,
-                  style: const TextStyle(fontSize: 16.00))
+                      style: const TextStyle(fontSize: 16.00))
                 ],
               ),
               const Padding(padding: EdgeInsets.only(top: 24)),
@@ -44,7 +45,8 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
                 children: [
                   const Text(
                     "Forma de pago:  ",
-                    style: TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
                   ),
                   const Padding(padding: EdgeInsets.only(left: 8)),
                   Text(
@@ -66,7 +68,7 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
                                     fontSize: 16.00,
                                     fontWeight: FontWeight.bold)),
                             Text(widget.approvedRequestData[0].start,
-                            style: const TextStyle(fontSize: 16.00))
+                                style: const TextStyle(fontSize: 16.00))
                           ],
                         ),
                       ],
@@ -74,14 +76,15 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
                   : const Padding(padding: EdgeInsets.only(top: 8)),
               const Padding(padding: EdgeInsets.only(top: 16)),
               const Text(
-                    "Dias seleccionados: ",
-                    style: TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
-                  ),
+                "Dias seleccionados: ",
+                style: TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
+              ),
               const Padding(padding: EdgeInsets.only(top: 8)),
               ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: widget.approvedRequestData[0].days.split(',').length,
+                  itemCount:
+                      widget.approvedRequestData[0].days.split(',').length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       child: Row(
@@ -97,22 +100,22 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
                       ),
                     );
                   }),
-                  const Padding(padding: EdgeInsets.only(top: 8)),
+              const Padding(padding: EdgeInsets.only(top: 8)),
               widget.approvedRequestData[0].revealName == "no data"
                   ? const Padding(padding: EdgeInsets.zero)
-                  :  Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Responsable durante ausencia:",
-                    style: TextStyle(fontSize: 16.00, fontWeight: FontWeight.bold),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 4)),
-
-                  Text(widget.approvedRequestData[0].revealName,
-                  style: const TextStyle(fontSize: 16.00))
-                ],
-              ),
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Responsable durante ausencia:",
+                          style: TextStyle(
+                              fontSize: 16.00, fontWeight: FontWeight.bold),
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 4)),
+                        Text(widget.approvedRequestData[0].revealName,
+                            style: const TextStyle(fontSize: 16.00))
+                      ],
+                    ),
               const Padding(padding: EdgeInsets.only(top: 24)),
               const Text(
                 "Motivo",
@@ -124,20 +127,23 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
               ),
               const Padding(padding: EdgeInsets.only(top: 8)),
               Text(widget.approvedRequestData[0].reason,
-              style: const TextStyle(fontSize: 16.00)),
+                  style: const TextStyle(fontSize: 16.00)),
               const Padding(padding: EdgeInsets.only(top: 64)),
-
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: ColorIntranetConstants.primaryColorDark, // background
-                    onPrimary: Colors.white, // foreground
+                    foregroundColor: Colors.white,
+                    backgroundColor:
+                        ColorIntranetConstants.primaryColorDark, // foreground
                   ),
-                  child:  const Text("APROBAR SOLICITUD"),
-                  onPressed: (){
-                    showManagerAlertDialog(context,widget.approvedRequestData[0].id.toString(), "Aprobada");
+                  child: const Text("APROBAR SOLICITUD"),
+                  onPressed: () {
+                    showManagerAlertDialog(
+                        context,
+                        widget.approvedRequestData[0].id.toString(),
+                        "Aprobada");
                   },
                 ),
               ),
@@ -147,46 +153,52 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color.fromARGB(255, 202, 20, 7), // background
-                    onPrimary: Colors.white, // foreground
+                    foregroundColor: Colors.white,
+                    backgroundColor:
+                        const Color.fromARGB(255, 202, 20, 7), // foreground
                   ),
-                  child:  const Text("RECHAZAR SOLICITUD"),
-                  onPressed: (){
-                    showManagerAlertDialog(context,widget.approvedRequestData[0].id.toString(), "Rechazada");
+                  child: const Text("RECHAZAR SOLICITUD"),
+                  onPressed: () {
+                    showManagerAlertDialog(
+                        context,
+                        widget.approvedRequestData[0].id.toString(),
+                        "Rechazada");
                   },
-                ),),
-          
+                ),
+              ),
             ],
           ),
         ));
   }
 
-  showManagerAlertDialog(BuildContext context, String requestID, String responseRequest) {
-    String details =  "";
-    if(responseRequest =="Aprobada"){
+  showManagerAlertDialog(
+      BuildContext context, String requestID, String responseRequest) {
+    String details = "";
+    if (responseRequest == "Aprobada") {
       details = "aprobar";
-    }else{
-       details = "rechazar";
+    } else {
+      details = "rechazar";
     }
     Widget cancelButton = TextButton(
       child: const Text("Cancelar"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
       },
     );
     Widget continueButton = TextButton(
       child: const Text("Aceptar"),
-      onPressed:  () {
+      onPressed: () {
         postApprovedRequest(requestID, responseRequest, context);
         Navigator.of(context, rootNavigator: true).pop();
-        Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => const ManagerRequestPage()),
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const ManagerRequestPage()),
             ModalRoute.withName("/ManagerRequestPage"));
       },
     );
 
     AlertDialog alert = AlertDialog(
-      title:  Text(responseRequest),
+      title: Text(responseRequest),
       content: Text("¿Deseas $details esta solicitud?"),
       actions: [
         cancelButton,
@@ -201,5 +213,4 @@ class _ApprovedRequestDetailState extends State<ApprovedRequestDetail> {
       },
     );
   }
-
-  }
+}

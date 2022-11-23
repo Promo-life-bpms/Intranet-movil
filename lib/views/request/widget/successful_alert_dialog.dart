@@ -69,9 +69,9 @@ class SuccessfulAlertDialog {
                                 height: 60,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: ColorIntranetConstants
-                                        .primaryColorNormal, // background
-                                    onPrimary: Colors.white, // foreground
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: ColorIntranetConstants
+                                        .primaryColorNormal, // foreground
                                   ),
                                   onPressed: () {
                                     Navigator.pushAndRemoveUntil(

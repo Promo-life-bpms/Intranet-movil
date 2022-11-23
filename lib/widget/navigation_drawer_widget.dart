@@ -42,7 +42,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   static var username = "";
   static var email = "";
   static var photo = "";
- 
+
   late List<UserModel>? _userlModel = [];
   late List<ManualModel>? _manualModel = [];
   late List<CommuniqueModel>? _communiqueModel = [];
@@ -58,8 +58,6 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   static List<BirthdayModel> birthdayData = [];
 
   static List<String> userRole = [];
-  
-
 
   @override
   void initState() {
@@ -72,9 +70,9 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     //Obtiene el token (si existe) y lo valida enviando una peticion GET al servidor, devuelviendo la información del usuario
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
-    _userlModel = (await ApiUserService().getUsers(token.toString()))!.cast<UserModel>();
+    _userlModel =
+        (await ApiUserService().getUsers(token.toString()))!.cast<UserModel>();
     if (_userlModel!.isNotEmpty) {
-      
       setState(() {
         getRole(_userlModel![0].roles);
         username = _userlModel![0].fullname.toString();
@@ -89,10 +87,14 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   void _getAppData() async {
     _manualModel = (await ApiManualService().getManual())!.cast<ManualModel>();
-    _communiqueModel = (await ApiCommuniqueService().getCommunique())!.cast<CommuniqueModel>();
-    _monthEmployeeModel = (await ApiMonthEmployeeService().getMonthEmployee())!.cast<MonthEmployeeModel>();
-    _brithdayModel = (await ApiBrithdayService().getBrithday())!.cast<BirthdayModel>();
-    _directoryModel = (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
+    _communiqueModel =
+        (await ApiCommuniqueService().getCommunique())!.cast<CommuniqueModel>();
+    _monthEmployeeModel = (await ApiMonthEmployeeService().getMonthEmployee())!
+        .cast<MonthEmployeeModel>();
+    _brithdayModel =
+        (await ApiBrithdayService().getBrithday())!.cast<BirthdayModel>();
+    _directoryModel =
+        (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
 
     setState(() {
       manualData = _manualModel!;
@@ -124,52 +126,48 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     NetworkImage(ApiIntranetConstans.baseUrl + photo),
               ),
             ),
-
-            
-          userRole.contains("Recursos Humanos")?
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Divider(),
-                   const ListTile(title: Text("Recursos Humanos")),
-                   ListTile(
-                    leading: const Icon(Icons.task),
-                    title: const Text(StringIntranetConstants.managerApproveRequest),
-                    selected: (_selectedDrawerItem == 30),
-                    selectedColor: ColorIntranetConstants.primaryColorLight,
-                    onTap: () {
-                      selectedItem(context, 30);
-                    },
-                  ),
-                  const Divider(),
-                ],
-              )
-            : const Padding(padding: EdgeInsets.zero),
-
-            userRole.contains("Manager")?
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Divider(),
-                  const ListTile(title: Text("Jefe directo")),
-                  ListTile(
-                    leading: const Icon(Icons.task),
-                    title: const Text(StringIntranetConstants.managerApproveRequest),
-                    selected: (_selectedDrawerItem == 40),
-                    selectedColor: ColorIntranetConstants.primaryColorLight,
-                    onTap: () {
-                      selectedItem(context, 40);
-                    },
-                  ),
-
-                  const Divider(),
-                  
-                ],
-              )
-            : const Padding(padding: EdgeInsets.zero),
-
+            userRole.contains("Recursos Humanos")
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Divider(),
+                      const ListTile(title: Text("Recursos Humanos")),
+                      ListTile(
+                        leading: const Icon(Icons.task),
+                        title: const Text(
+                            StringIntranetConstants.managerApproveRequest),
+                        selected: (_selectedDrawerItem == 30),
+                        selectedColor: ColorIntranetConstants.primaryColorLight,
+                        onTap: () {
+                          selectedItem(context, 30);
+                        },
+                      ),
+                      const Divider(),
+                    ],
+                  )
+                : const Padding(padding: EdgeInsets.zero),
+            userRole.contains("Manager")
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Divider(),
+                      const ListTile(title: Text("Jefe directo")),
+                      ListTile(
+                        leading: const Icon(Icons.task),
+                        title: const Text(
+                            StringIntranetConstants.managerApproveRequest),
+                        selected: (_selectedDrawerItem == 40),
+                        selectedColor: ColorIntranetConstants.primaryColorLight,
+                        onTap: () {
+                          selectedItem(context, 40);
+                        },
+                      ),
+                      const Divider(),
+                    ],
+                  )
+                : const Padding(padding: EdgeInsets.zero),
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text(StringIntranetConstants.homePage),
@@ -371,8 +369,6 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
         break;
 
-
-
       case 30:
         _selectedDrawerItem = index;
         Navigator.pushAndRemoveUntil(
@@ -380,8 +376,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             MaterialPageRoute(builder: (context) => const RHRequestPage()),
             ModalRoute.withName("/RhRequest"));
 
-      break;
-
+        break;
 
       case 40:
         _selectedDrawerItem = index;
@@ -394,9 +389,9 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     }
   }
 
-  getRole(List<Roles> roles)async{
-    roles.forEach((element) { 
+  getRole(List<Roles> roles) async {
+    for (var element in roles) {
       userRole.add(element.role);
-    }); 
+    }
   }
 }

@@ -45,11 +45,9 @@ class _MyHomePageState extends State<RequestPage> {
   ];
 
   late var allMembers = ["Seleccionar responsable"];
-  
 
   late List<UserModel>? _userlModel = [];
   late List<DirectoryModel> _directoryModel = [];
-
 
   @override
   void initState() {
@@ -64,19 +62,21 @@ class _MyHomePageState extends State<RequestPage> {
     if (_token != null || _token!.isNotEmpty) {
       token = _token;
     }
-    _userlModel = (await ApiUserService().getUsers(token.toString()))!.cast<UserModel>();
-    _directoryModel = (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
+    _userlModel =
+        (await ApiUserService().getUsers(token.toString()))!.cast<UserModel>();
+    _directoryModel =
+        (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
 
     // ignore: unnecessary_null_comparison
-     if(_directoryModel.isNotEmpty || _directoryModel != null){
-      _directoryModel.forEach((element) { 
-        if( element.department == _userlModel![0].department){
+    if (_directoryModel.isNotEmpty || _directoryModel != null) {
+      for (var element in _directoryModel) {
+        if (element.department == _userlModel![0].department) {
           allMembers.add(element.fullname.toString());
-        } 
-      });
+        }
+      }
       /* _directoryModel.forEach((element) {allMembers.add(element.fullname.toString());}); */
-    } 
-    
+    }
+
     //Obtiene el total de dias disponibles del endpoint y lo asigna  a la variable maxDays, mismo que sera utilizado en la variable daysToShow
 
     maxDays = _userlModel![0].daysAvailables;
@@ -152,7 +152,7 @@ class _MyHomePageState extends State<RequestPage> {
                           ),
                         ],
                       ),
-                     
+
                       dropdownvalue == "Salir durante la jornada"
                           ? Column(
                               children: [
@@ -168,9 +168,9 @@ class _MyHomePageState extends State<RequestPage> {
                                     Flexible(
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          primary: ColorIntranetConstants
-                                              .primaryColorNormal, // background
-                                          onPrimary: Colors.white, // foreground
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: ColorIntranetConstants
+                                              .primaryColorNormal, // foreground
                                         ),
                                         onPressed: () {
                                           _selectTime(context);
@@ -203,9 +203,9 @@ class _MyHomePageState extends State<RequestPage> {
                               height: 40,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: ColorIntranetConstants
-                                      .primaryColorNormal, // background
-                                  onPrimary: Colors.white, // foreground
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: ColorIntranetConstants
+                                      .primaryColorNormal, // foreground
                                 ),
                                 onPressed: () {
                                   _selectDate(context);
@@ -232,7 +232,10 @@ class _MyHomePageState extends State<RequestPage> {
                                   ),
                                   IconButton(
                                       onPressed: () {
-                                        _delete(days, days[index],);
+                                        _delete(
+                                          days,
+                                          days[index],
+                                        );
                                       },
                                       icon: const Icon(
                                         Icons.delete,
@@ -246,39 +249,54 @@ class _MyHomePageState extends State<RequestPage> {
 
                       //Dias de expiracion
                       dropdownvalue == 'Solicitar vacaciones'
-                          ?
-                          
-                          _userlModel![0].expiration.length == 1?
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Column(
-                              children: [
-                                Text("Tienes ${_userlModel![0].expiration[0].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[0].cutoffDate} ", style: const TextStyle(fontWeight: FontWeight.bold),),
-                              ],
-                            ),
-                          )
-
-                          : _userlModel![0].expiration.length == 2?
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                              Text("Tienes ${_userlModel![0].expiration[1].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[1].cutoffDate} ", style: const TextStyle(fontWeight: FontWeight.bold,), ),
-                              const Padding(padding: EdgeInsets.only(top: 8)),
-                              Text("Tienes ${_userlModel![0].expiration[0].daysAvailables} dias disponibles del periodo actual que vencen el ${_userlModel![0].expiration[0].cutoffDate} ", style: const TextStyle(fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,maxLines: 2,),
-                              ],
-                            ),
-                          )
-                          :
-                          const Padding(padding: EdgeInsets.zero)
+                          ? _userlModel![0].expiration.length == 1
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Tienes ${_userlModel![0].expiration[0].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[0].cutoffDate} ",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : _userlModel![0].expiration.length == 2
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Tienes ${_userlModel![0].expiration[1].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[1].cutoffDate} ",
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 8)),
+                                          Text(
+                                            "Tienes ${_userlModel![0].expiration[0].daysAvailables} dias disponibles del periodo actual que vencen el ${_userlModel![0].expiration[0].cutoffDate} ",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : const Padding(padding: EdgeInsets.zero)
                           : const Padding(padding: EdgeInsets.zero),
 
                       const Padding(padding: EdgeInsets.only(top: 24)),
-                       // ignore: unnecessary_null_comparison
-                       _directoryModel == null || _directoryModel.isEmpty || _directoryModel == []
+                      // ignore: unnecessary_null_comparison
+                      _directoryModel == null ||
+                              _directoryModel.isEmpty ||
+                              _directoryModel == []
                           ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   "Asignar responsable durante ausencia (opcional):   ",
@@ -293,7 +311,8 @@ class _MyHomePageState extends State<RequestPage> {
                                   items: allMembers.map((String items) {
                                     return DropdownMenuItem(
                                       value: items,
-                                      child: Text(items, overflow: TextOverflow.ellipsis ),
+                                      child: Text(items,
+                                          overflow: TextOverflow.ellipsis),
                                     );
                                   }).toList(),
                                   onChanged: (String? newValue) {
@@ -305,7 +324,7 @@ class _MyHomePageState extends State<RequestPage> {
                               ],
                             )
                           : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   "Asignar responsable durante ausencia (opcional):  ",
@@ -321,7 +340,8 @@ class _MyHomePageState extends State<RequestPage> {
                                   items: allMembers.map((String items) {
                                     return DropdownMenuItem(
                                       value: items,
-                                      child: Text(items, overflow: TextOverflow.ellipsis),
+                                      child: Text(items,
+                                          overflow: TextOverflow.ellipsis),
                                     );
                                   }).toList(),
                                   onChanged: (String? newValue) {
@@ -366,19 +386,25 @@ class _MyHomePageState extends State<RequestPage> {
                         height: 60,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: ColorIntranetConstants
-                                .primaryColorDark, // background
-                            onPrimary: Colors.white, // foreground
+                            foregroundColor: Colors.white,
+                            backgroundColor: ColorIntranetConstants
+                                .primaryColorDark, // foreground
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               if (days.isNotEmpty) {
                                 String idMember = "";
-                                if(teamMembersValue != "Seleccionar responsable"){
-                                  List<DirectoryModel> memberSelected =  _directoryModel.where((element) => (element.fullname  == teamMembersValue)).toList();
-                                    idMember = memberSelected[0].id.toString();
+                                if (teamMembersValue !=
+                                    "Seleccionar responsable") {
+                                  List<DirectoryModel> memberSelected =
+                                      _directoryModel
+                                          .where((element) =>
+                                              (element.fullname ==
+                                                  teamMembersValue))
+                                          .toList();
+                                  idMember = memberSelected[0].id.toString();
                                 }
-                                  
+
                                 postRequest(
                                     token,
                                     dropdownvalue,
@@ -388,8 +414,7 @@ class _MyHomePageState extends State<RequestPage> {
                                     reason.text,
                                     (maxDays - days.length).toString(),
                                     idMember,
-                                    context);  
-                                     
+                                    context);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
