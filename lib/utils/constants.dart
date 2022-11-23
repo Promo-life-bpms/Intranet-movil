@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/about.dart';
 
 class ApiIntranetConstans {
-  //Servidores de pruebas
-  /*  static String baseUrl = 'https://intranet.kaths.com.mx/';  */
-
-/*   static String baseUrl = 'https://dev-intranet.promolife.lat/'; 
- */
+  // URL del servidor de pruebas
+  // static String baseUrl = 'https://dev-intranet.promolife.lat/';
   //Servidor de produccion
-  static String baseUrl = 'https://intranet.promolife.lat/';
+  static String baseUrl = 'https://dev-intranet.promolife.lat/';
 
   static String loginEndpoint = 'api/login';
   static String getUser = 'api/getUser/';

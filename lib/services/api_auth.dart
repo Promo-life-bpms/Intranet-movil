@@ -6,20 +6,23 @@ import 'package:http/http.dart' as http;
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class AuthProvider extends ChangeNotifier {
   bool _isAuthenticated = false;
 
   bool get isAuthenticated => _isAuthenticated;
- 
+
   Future<bool> login(String email, String password) async {
-    final response = await http.post(Uri.parse(ApiIntranetConstans.baseUrl+ApiIntranetConstans.loginEndpoint) , body: {
-      'email': email,
-      'password': password,
-      'device_name': await getDeviceId(),
-    }, headers: {
-      'Accept': 'application/json',
-    });
+    final response = await http.post(
+        Uri.parse(
+            ApiIntranetConstans.baseUrl + ApiIntranetConstans.loginEndpoint),
+        body: {
+          'email': email,
+          'password': password,
+          'device_name': await getDeviceId(),
+        },
+        headers: {
+          'Accept': 'application/json',
+        });
 
     if (response.statusCode == 200) {
       String token = response.body;
@@ -34,12 +37,10 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return false;
-
   }
 
-
   getDeviceId() async {
-    final DeviceInfoPlugin deviceInfoPlugin =  DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {
         var build = await deviceInfoPlugin.androidInfo;
@@ -48,10 +49,8 @@ class AuthProvider extends ChangeNotifier {
         var data = await deviceInfoPlugin.iosInfo;
         return data.identifierForVendor;
       }
-    // ignore: empty_catches
-    } on PlatformException {
-      
-    }
+      // ignore: empty_catches
+    } on PlatformException {}
   }
 
   saveToken(String token) async {
@@ -60,9 +59,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<String?> getToken() async {
-     
     final prefs = await SharedPreferences.getInstance();
-    
+
     return prefs.getString('token');
   }
 

@@ -44,24 +44,28 @@ class _HomeState extends State<MyApp> {
 
   void _getData() async {
     final prefs = await SharedPreferences.getInstance();
-    _token = prefs.getString('token');
-    _userModel = (await ApiUserService().getUsers(_token.toString()))!.cast<UserModel>();
-    
-    if(_userModel!.isNotEmpty){
+    setState(() {
+      _token = prefs.getString('token');
+    });
+    _userModel =
+        (await ApiUserService().getUsers(_token.toString()))!.cast<UserModel>();
+
+    if (_userModel!.isNotEmpty) {
       setState(() {
         validator = "hasData";
       });
     }
-        
+
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
-  void _getHomeData()async{
-    _brithdayModel = (await ApiBrithdayService().getBrithday())!.cast<BirthdayModel>();
-    _communiqueModel = (await ApiCommuniqueService().getCommunique())!.cast<CommuniqueModel>();
-        
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  void _getHomeData() async {
+    _brithdayModel =
+        (await ApiBrithdayService().getBrithday())!.cast<BirthdayModel>();
+    _communiqueModel =
+        (await ApiCommuniqueService().getCommunique())!.cast<CommuniqueModel>();
 
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
   @override
@@ -81,29 +85,24 @@ class _HomeState extends State<MyApp> {
             appBarTheme: const AppBarTheme(
                 backgroundColor: ColorIntranetConstants.primaryColorLight)),
         home: Scaffold(
-            body: _userModel == null || _userModel!.isEmpty
+            body: _token == null
                 ? Center(
                     //Widget que valida si esta autenticado o no
                     child: Consumer<AuthProvider>(
                     builder: (context, auth, child) {
                       switch (auth.isAuthenticated) {
                         case true:
-                            return HomePage(
-                              userData: _userModel,
-                              birthdayData: _brithdayModel,
-                              communiqueData: _communiqueModel,
-                            );
-                          
+                          return HomePage(
+                            userData: _userModel,
+                            birthdayData: _brithdayModel,
+                            communiqueData: _communiqueModel,
+                          );
+
                         default:
                           return LoginForm();
-                         
                       }
                     },
                   ))
-                : HomePage(
-                    userData: _userModel,
-                    birthdayData: _brithdayModel,
-                    communiqueData: _communiqueModel,
-                  )));
+                : const HomePage()));
   }
 }
