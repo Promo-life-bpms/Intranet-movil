@@ -58,24 +58,11 @@ class RequestMainPage extends StatefulWidget {
 
 class _HomeState extends State<RequestMainPage> {
   late List<RequestModel>? _requestModel = [];
+  late List<RequestModel>? _requestModel2 = [];
   late String _token = "";
 
   bool _notificationsEnabled = false;
   int id = 0;
-
-  Future<void> _createNotificationChannel() async {
-    const AndroidNotificationChannel androidNotificationChannel =
-        AndroidNotificationChannel(
-      'Channel01',
-      'Solicitudes',
-      description: 'Canal de notificaciones para las solicitudes',
-      importance: Importance.max,
-    );
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(androidNotificationChannel);
-  }
 
   @override
   void initState() {
@@ -87,61 +74,18 @@ class _HomeState extends State<RequestMainPage> {
     _createNotificationChannel();
   }
 
-  Future<void> _isAndroidPermissionGranted() async {
-    if (Platform.isAndroid) {
-      final bool granted = await flutterLocalNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
-              ?.areNotificationsEnabled() ??
-          false;
-
-      setState(() {
-        _notificationsEnabled = granted;
-      });
+  Stream<List<RequestModel>?> _request() async* {
+    while (true) {
+      await Future<void>.delayed(const Duration(seconds: 2));
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      _requestModel2 = (await ApiRequestService().getRequest(token.toString()))!
+          .cast<RequestModel>();
+      if (_requestModel2!.length > _requestModel!.length) {
+        _showNotification();
+      }
+      yield _requestModel2;
     }
-  }
-
-  Future<void> _requestPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
-
-      final bool? granted = await androidImplementation?.requestPermission();
-      setState(() {
-        _notificationsEnabled = granted ?? false;
-      });
-    }
-  }
-
-  Future<void> _showNotification() async {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('Channel01', 'Solicitudes',
-            channelDescription: 'Canal de notificaciones para las solicitudes',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon: "@mipmap/ic_launcher");
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        id++, 'Brando', 'Es gay', notificationDetails);
   }
 
   void _getData() async {
@@ -209,37 +153,76 @@ class _HomeState extends State<RequestMainPage> {
                 ]),
             title: const Text(StringIntranetConstants.requestPage),
           ),
-          body: TabBarView(
-            children: [
-              PendingRequestPage(
-                requestModel: _requestModel
-                    ?.where((i) =>
-                        i.directManagerStatus == "Pendiente" &&
-                        i.humanResourcesStatus == "Pendiente")
-                    .toList(),
-                token: _token,
-                contextMain: context,
-              ),
-              ProcessRequestPage(
-                  requestModel: _requestModel
-                      ?.where((i) =>
-                          i.directManagerStatus == "Aprobada" &&
-                          i.humanResourcesStatus == "Pendiente")
-                      .toList()),
-              ApprovedRequestPage(
-                  requestModel: _requestModel
-                      ?.where((i) =>
-                          i.directManagerStatus == "Aprobada" &&
-                          i.humanResourcesStatus == "Aprobada")
-                      .toList()),
-              RejectedRequestPage(
-                  requestModel: _requestModel
-                      ?.where((i) =>
-                          i.directManagerStatus == "Rechazada" ||
-                          i.humanResourcesStatus == "Rechazada")
-                      .toList()),
-            ],
-          ),
+          body: StreamBuilder(
+              stream: _request(),
+              builder: (context, AsyncSnapshot<List<RequestModel>?> snapshot) {
+                if (snapshot.hasData) {
+                  _requestModel = snapshot.data;
+
+                  TabBarView(
+                    children: [
+                      PendingRequestPage(
+                        requestModel: _requestModel
+                            ?.where((i) =>
+                                i.directManagerStatus == "Pendiente" &&
+                                i.humanResourcesStatus == "Pendiente")
+                            .toList(),
+                        token: _token,
+                        contextMain: context,
+                      ),
+                      ProcessRequestPage(
+                          requestModel: _requestModel
+                              ?.where((i) =>
+                                  i.directManagerStatus == "Aprobada" &&
+                                  i.humanResourcesStatus == "Pendiente")
+                              .toList()),
+                      ApprovedRequestPage(
+                          requestModel: _requestModel
+                              ?.where((i) =>
+                                  i.directManagerStatus == "Aprobada" &&
+                                  i.humanResourcesStatus == "Aprobada")
+                              .toList()),
+                      RejectedRequestPage(
+                          requestModel: _requestModel
+                              ?.where((i) =>
+                                  i.directManagerStatus == "Rechazada" ||
+                                  i.humanResourcesStatus == "Rechazada")
+                              .toList()),
+                    ],
+                  );
+                }
+                return TabBarView(
+                  children: [
+                    PendingRequestPage(
+                      requestModel: _requestModel
+                          ?.where((i) =>
+                              i.directManagerStatus == "Pendiente" &&
+                              i.humanResourcesStatus == "Pendiente")
+                          .toList(),
+                      token: _token,
+                      contextMain: context,
+                    ),
+                    ProcessRequestPage(
+                        requestModel: _requestModel
+                            ?.where((i) =>
+                                i.directManagerStatus == "Aprobada" &&
+                                i.humanResourcesStatus == "Pendiente")
+                            .toList()),
+                    ApprovedRequestPage(
+                        requestModel: _requestModel
+                            ?.where((i) =>
+                                i.directManagerStatus == "Aprobada" &&
+                                i.humanResourcesStatus == "Aprobada")
+                            .toList()),
+                    RejectedRequestPage(
+                        requestModel: _requestModel
+                            ?.where((i) =>
+                                i.directManagerStatus == "Rechazada" ||
+                                i.humanResourcesStatus == "Rechazada")
+                            .toList()),
+                  ],
+                );
+              }),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await _showNotification();
@@ -254,5 +237,78 @@ class _HomeState extends State<RequestMainPage> {
         ),
       ),
     );
+  }
+
+  /* Notificaciones */
+
+  Future<void> _createNotificationChannel() async {
+    const AndroidNotificationChannel androidNotificationChannel =
+        AndroidNotificationChannel(
+      'Channel01',
+      'Solicitudes',
+      description: 'Canal de notificaciones para las solicitudes',
+      importance: Importance.max,
+    );
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(androidNotificationChannel);
+  }
+
+  Future<void> _isAndroidPermissionGranted() async {
+    if (Platform.isAndroid) {
+      final bool granted = await flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>()
+              ?.areNotificationsEnabled() ??
+          false;
+
+      setState(() {
+        _notificationsEnabled = granted;
+      });
+    }
+  }
+
+  Future<void> _requestPermissions() async {
+    if (Platform.isIOS || Platform.isMacOS) {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              MacOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } else if (Platform.isAndroid) {
+      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      final bool? granted = await androidImplementation?.requestPermission();
+      setState(() {
+        _notificationsEnabled = granted ?? false;
+      });
+    }
+  }
+
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('Channel01', 'Solicitudes',
+            channelDescription: 'Canal de notificaciones para las solicitudes',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: "@mipmap/ic_launcher_round");
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        id++, 'Intranet', 'Tu solicitud ha sido aprobada', notificationDetails);
   }
 }
