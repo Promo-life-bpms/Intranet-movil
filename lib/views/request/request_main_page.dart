@@ -72,6 +72,7 @@ class _HomeState extends State<RequestMainPage> {
     _isAndroidPermissionGranted();
     _requestPermissions();
     _createNotificationChannel();
+    _repeatNotification();
   }
 
   Stream<List<RequestModel>?> _request() async* {
@@ -310,5 +311,23 @@ class _HomeState extends State<RequestMainPage> {
         NotificationDetails(android: androidNotificationDetails);
     await flutterLocalNotificationsPlugin.show(
         id++, 'Intranet', 'Tu solicitud ha sido aprobada', notificationDetails);
+  }
+
+  Future<void> _repeatNotification() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('Channel01', 'Solicitudes',
+            channelDescription: 'Canal de notificaciones para las solicitudes',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: "@mipmap/ic_launcher_round");
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+        id++,
+        'Prueba',
+        'Notificacion en segundo planos',
+        RepeatInterval.everyMinute,
+        notificationDetails,
+        androidAllowWhileIdle: true);
   }
 }
