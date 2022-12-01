@@ -69,10 +69,8 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
-  // Only available for flutter 3.0.0 and later
   DartPluginRegistrant.ensureInitialized();
 
-  /// OPTIONAL when use custom notification
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -84,22 +82,50 @@ void onStart(ServiceInstance service) async {
   String? token = prefs.getString('token');
 
   late List<RequestModel> _requestModel = [];
+
+  //Lista inicial, tomada como referencia al momento de actualizar las solicitudes
   _requestModel = (await ApiRequestService().getRequest(token.toString()))!
       .cast<RequestModel>();
 
-  int numb = _requestModel.length;
-  // bring to foreground
+  var approvedRequest = _requestModel
+      .where((element) => element.humanResourcesStatus == "Aprobada");
+
+  var rejectedRequest = _requestModel.where((element) =>
+      element.humanResourcesStatus == "Rechazada" ||
+      element.directManagerStatus == "Rechazada");
+
+  var pendingRequest = _requestModel
+      .where((element) => element.humanResourcesStatus == "Pendiente");
+  // LLamada al servidor para actualizar el estado de las solicitudes
   Timer.periodic(const Duration(seconds: 5), (timer) async {
     _requestModel = (await ApiRequestService().getRequest(token.toString()))!
         .cast<RequestModel>();
+    //Se filtran las solicitudes por tipo de solicitud
+    var newApprovedRequest = _requestModel
+        .where((element) => element.humanResourcesStatus == "Aprobada");
 
-    if (_requestModel.length > numb) {
-      numb = _requestModel.length;
-      createdRequestNotification();
+    var newRejectedRequest = _requestModel.where((element) =>
+        element.humanResourcesStatus == "Rechazada" ||
+        element.directManagerStatus == "Rechazada");
+
+    var newPendingRequest = _requestModel
+        .where((element) => element.humanResourcesStatus == "Pendiente");
+    //En caso de que el usuario elimina una soliciutd se elimina y se asigna al estado inicial
+    if (newPendingRequest.length < pendingRequest.length) {
+      deletedRequestNotification();
+      pendingRequest = newPendingRequest;
     }
-
-    print("totalllllll");
-    print(_requestModel.length);
-    print(numb);
+    if (newApprovedRequest.length > approvedRequest.length) {
+      approvedRequestNotification();
+      approvedRequest = newApprovedRequest;
+    }
+    if (newRejectedRequest.length > rejectedRequest.length) {
+      rejectedRequestNotification();
+      rejectedRequest = newRejectedRequest;
+    }
+    if (newPendingRequest.length > pendingRequest.length) {
+      pendingRequestNotification();
+      pendingRequest = newPendingRequest;
+    }
   });
 }
