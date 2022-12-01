@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/request.dart';
 import 'package:intranet_movil/services/api_request.dart';
+import 'package:intranet_movil/services/notifications_background.dart';
+import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/request/modules/approved.dart';
@@ -24,34 +25,6 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 const String portName = 'notification_send_port';
-
-class ReceivedNotification {
-  ReceivedNotification({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.payload,
-  });
-
-  final int id;
-  final String? title;
-  final String? body;
-  final String? payload;
-}
-
-String? selectedNotificationPayload;
-
-/// A notification action which triggers a url launch event
-const String urlLaunchActionId = 'id_1';
-
-/// A notification action which triggers a App navigation event
-const String navigationActionId = 'id_3';
-
-/// Defines a iOS/MacOS notification category for text input actions.
-const String darwinNotificationCategoryText = 'textCategory';
-
-/// Defines a iOS/MacOS notification category for plain actions.
-const String darwinNotificationCategoryPlain = 'plainCategory';
 
 class RequestMainPage extends StatefulWidget {
   const RequestMainPage({Key? key}) : super(key: key);
@@ -75,7 +48,7 @@ class _HomeState extends State<RequestMainPage> {
 
     _isAndroidPermissionGranted();
     _requestPermissions();
-    _createNotificationChannel();
+    createNotificationChannel();
     initializeService();
   }
 
@@ -86,9 +59,6 @@ class _HomeState extends State<RequestMainPage> {
       String? token = prefs.getString('token');
       _requestModel2 = (await ApiRequestService().getRequest(token.toString()))!
           .cast<RequestModel>();
-      if (_requestModel2!.length > _requestModel!.length) {
-        _showNotification();
-      }
       yield _requestModel2;
     }
   }
@@ -243,22 +213,6 @@ class _HomeState extends State<RequestMainPage> {
     );
   }
 
-  /* Notificaciones */
-
-  Future<void> _createNotificationChannel() async {
-    const AndroidNotificationChannel androidNotificationChannel =
-        AndroidNotificationChannel(
-      'Channel01',
-      'Solicitudes',
-      description: 'Canal de notificaciones para las solicitudes',
-      importance: Importance.max,
-    );
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(androidNotificationChannel);
-  }
-
   Future<void> _isAndroidPermissionGranted() async {
     if (Platform.isAndroid) {
       final bool granted = await flutterLocalNotificationsPlugin
@@ -302,166 +256,4 @@ class _HomeState extends State<RequestMainPage> {
       });
     }
   }
-
-  Future<void> _showNotification() async {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('Channel01', 'Solicitudes',
-            channelDescription: 'Canal de notificaciones para las solicitudes',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon: "@mipmap/ic_launcher_round");
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        id++, 'Intranet', 'Tu solicitud ha sido aprobada', notificationDetails);
-  }
-
-  Future<void> _repeatNotification() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-
-    late List<RequestModel>? requestModel = [];
-
-    requestModel = (await ApiRequestService().getRequest(token.toString()))!
-        .cast<RequestModel>();
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('Channel01', 'Solicitudes',
-            channelDescription: 'Canal de notificaciones para las solicitudes',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon: "@mipmap/ic_launcher_round");
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-        id++,
-        'Prueba',
-        requestModel.length.toString(),
-        RepeatInterval.everyMinute,
-        notificationDetails,
-        androidAllowWhileIdle: true);
-  }
-
-  Future<void> onStart() async {
-    // Only available for flutter 3.0.0 and later
-    DartPluginRegistrant.ensureInitialized();
-
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-
-    // bring to foreground
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      _showNotification();
-    });
-  }
-}
-
-Future<void> initializeService() async {
-  final service = FlutterBackgroundService();
-
-  /// OPTIONAL, using custom notification channel id
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'Channel01', // id
-    'Solicitudes', // title
-    description: 'Canal de notificaciones para las solicitudes', // description
-    importance: Importance.high, // importance must be at low or higher level
-  );
-
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  await service.configure(
-    androidConfiguration: AndroidConfiguration(
-      // this will be executed when app is in foreground or background in separated isolate
-      onStart: onStart,
-
-      // auto start service
-      autoStart: true,
-      isForegroundMode: true,
-
-      notificationChannelId: 'Channel01',
-      initialNotificationTitle: 'Notificaciones Intranet',
-      initialNotificationContent: '',
-      foregroundServiceNotificationId: 888,
-    ),
-    iosConfiguration: IosConfiguration(
-      // auto start service
-      autoStart: true,
-
-      // this will be executed when app is in foreground in separated isolate
-      onForeground: onStart,
-
-      // you have to enable background fetch capability on xcode project
-      onBackground: onIosBackground,
-    ),
-  );
-
-  service.startService();
-}
-
-// to ensure this is executed
-// run app from xcode, then from xcode menu, select Simulate Background Fetch
-
-@pragma('vm:entry-point')
-Future<bool> onIosBackground(ServiceInstance service) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  DartPluginRegistrant.ensureInitialized();
-  _showNotification();
-  return true;
-}
-
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  // Only available for flutter 3.0.0 and later
-  DartPluginRegistrant.ensureInitialized();
-
-  /// OPTIONAL when use custom notification
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  service.on('stopService').listen((event) {
-    service.stopSelf();
-  });
-
-  final prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token');
-
-  late List<RequestModel> _requestModel = [];
-  _requestModel = (await ApiRequestService().getRequest(token.toString()))!
-      .cast<RequestModel>();
-
-  int numb = _requestModel.length;
-  // bring to foreground
-  Timer.periodic(const Duration(seconds: 5), (timer) async {
-    _requestModel = (await ApiRequestService().getRequest(token.toString()))!
-        .cast<RequestModel>();
-
-    if (_requestModel.length > numb) {
-      numb = _requestModel.length;
-      _showNotification();
-    }
-
-    print("totalllllll");
-    print(_requestModel.length);
-    print(numb);
-  });
-}
-
-Future _showNotification() async {
-  const AndroidNotificationDetails androidNotificationDetails =
-      AndroidNotificationDetails('Channel01', 'Solicitudes',
-          channelDescription: 'Canal de notificaciones para las solicitudes',
-          importance: Importance.max,
-          priority: Priority.high,
-          icon: "@mipmap/ic_launcher_round");
-  const NotificationDetails notificationDetails =
-      NotificationDetails(android: androidNotificationDetails);
-  await flutterLocalNotificationsPlugin.show(id++, "Solicitud",
-      "Tu solicitud se ha creado satisfactoriamente", notificationDetails);
 }
