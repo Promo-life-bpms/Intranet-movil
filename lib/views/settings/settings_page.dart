@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intranet_movil/services/notifications_background.dart';
 import 'package:intranet_movil/services/notifications_channel.dart';
@@ -75,6 +76,8 @@ class _LogoutState extends State<SettingsPage> {
                             initializeService();
                           } else {
                             enableNotifications = false;
+                            final service = FlutterBackgroundService();
+                            service.invoke("stopService");
                           }
                         });
                       },

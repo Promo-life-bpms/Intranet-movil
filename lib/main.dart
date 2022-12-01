@@ -6,6 +6,7 @@ import 'package:intranet_movil/services/api_birthday.dart';
 import 'package:intranet_movil/services/api_communique.dart';
 import 'package:intranet_movil/services/api_user.dart';
 import 'package:intranet_movil/services/api_auth.dart';
+import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/auth/login_page.dart';
 import 'package:intranet_movil/views/home/home_page.dart';
@@ -38,6 +39,7 @@ class _HomeState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    createNotificationChannel();
     _getData();
     _getHomeData();
   }

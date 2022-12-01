@@ -3,7 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-Future<void> createNotificationChannel() async {
+Future createNotificationChannel() async {
   const AndroidNotificationChannel androidNotificationChannel =
       AndroidNotificationChannel(
     'Channel01',
