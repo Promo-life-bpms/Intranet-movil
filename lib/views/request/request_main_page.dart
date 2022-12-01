@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/request.dart';
 import 'package:intranet_movil/services/api_request.dart';
-import 'package:intranet_movil/services/notifications_background.dart';
-import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/request/modules/approved.dart';
@@ -16,15 +12,6 @@ import 'package:intranet_movil/views/request/modules/rejected.dart';
 import 'package:intranet_movil/views/request/new_request.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-
-int id = 0;
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-const String portName = 'notification_send_port';
 
 class RequestMainPage extends StatefulWidget {
   const RequestMainPage({Key? key}) : super(key: key);
@@ -38,18 +25,10 @@ class _HomeState extends State<RequestMainPage> {
   late List<RequestModel>? _requestModel2 = [];
   late String _token = "";
 
-  bool _notificationsEnabled = false;
-  int id = 0;
-
   @override
   void initState() {
     super.initState();
     _getData();
-
-    _isAndroidPermissionGranted();
-    _requestPermissions();
-    createNotificationChannel();
-    initializeService();
   }
 
   Stream<List<RequestModel>?> _request() async* {
@@ -211,49 +190,5 @@ class _HomeState extends State<RequestMainPage> {
         ),
       ),
     );
-  }
-
-  Future<void> _isAndroidPermissionGranted() async {
-    if (Platform.isAndroid) {
-      final bool granted = await flutterLocalNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
-              ?.areNotificationsEnabled() ??
-          false;
-
-      setState(() {
-        _notificationsEnabled = granted;
-      });
-    }
-  }
-
-  Future<void> _requestPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
-
-      final bool? granted = await androidImplementation?.requestPermission();
-      setState(() {
-        _notificationsEnabled = granted ?? false;
-      });
-    }
   }
 }

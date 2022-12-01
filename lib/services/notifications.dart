@@ -1,5 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intranet_movil/views/request/request_main_page.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+int id = 0;
 
 Future pendingRequestNotification() async {
   const AndroidNotificationDetails androidNotificationDetails =

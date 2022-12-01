@@ -26,6 +26,7 @@ import 'package:intranet_movil/views/organization/organization_page.dart';
 import 'package:intranet_movil/views/profile/user.dart';
 import 'package:intranet_movil/views/request/request_main_page.dart';
 import 'package:intranet_movil/views/rh/rh_request_page.dart';
+import 'package:intranet_movil/views/settings/settings_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
@@ -131,10 +132,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   ListTile(
                     leading: const Icon(Icons.exit_to_app),
                     title: const Text(StringIntranetConstants.logoutPage),
-                    selected: (_selectedDrawerItem == 10),
+                    selected: (_selectedDrawerItem == 11),
                     selectedColor: ColorIntranetConstants.primaryColorLight,
                     onTap: () {
-                      selectedItem(context, 10);
+                      selectedItem(context, 11);
                     },
                   ),
                 ]
@@ -288,12 +289,21 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.exit_to_app),
-                    title: const Text(StringIntranetConstants.logoutPage),
+                    leading: const Icon(Icons.settings),
+                    title: const Text(StringIntranetConstants.settingsPage),
                     selected: (_selectedDrawerItem == 10),
                     selectedColor: ColorIntranetConstants.primaryColorLight,
                     onTap: () {
                       selectedItem(context, 10);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.exit_to_app),
+                    title: const Text(StringIntranetConstants.logoutPage),
+                    selected: (_selectedDrawerItem == 11),
+                    selectedColor: ColorIntranetConstants.primaryColorLight,
+                    onTap: () {
+                      selectedItem(context, 11);
                     },
                   ),
                 ],
@@ -390,6 +400,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             ModalRoute.withName("/AccesPage"));
         break;
       case 10:
+        _selectedDrawerItem = index;
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const SettingsPage()),
+            ModalRoute.withName("/Settings"));
+        break;
+      case 11:
         _selectedDrawerItem = index;
         Navigator.pushAndRemoveUntil(
             context,
