@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -17,17 +19,36 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _LogoutState extends State<SettingsPage> {
-  bool enableNotifications = false;
-  bool _notificationsEnabled = false;
+  late bool enableNotifications;
+
   int id = 0;
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   @override
   void initState() {
+    enableNotifications = false;
     createNotificationChannel();
-
+    getNotificationStatus();
     super.initState();
+  }
+
+  Future<Bool?> getNotificationStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? isEnableNotification = prefs.getBool('isEnableNotification');
+
+    if (isEnableNotification == null) {
+      enableNotifications = false;
+    } else {
+      setState(() {
+        enableNotifications = isEnableNotification;
+      });
+    }
+  }
+
+  saveNotification(bool enableNotifications) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isEnableNotification', enableNotifications);
   }
 
   @override
@@ -67,17 +88,19 @@ class _LogoutState extends State<SettingsPage> {
                     ),
                     Switch(
                       value: enableNotifications,
-                      onChanged: (bool value) {
+                      onChanged: (bool value) async {
                         setState(() {
                           if (enableNotifications == false) {
-                            enableNotifications = true;
                             isAndroidPermissionGranted();
                             requestPermissions();
                             initializeService();
+                            enableNotifications = true;
+                            saveNotification(enableNotifications);
                           } else {
                             enableNotifications = false;
                             final service = FlutterBackgroundService();
                             service.invoke("stopService");
+                            saveNotification(enableNotifications);
                           }
                         });
                       },
@@ -100,7 +123,7 @@ class _LogoutState extends State<SettingsPage> {
           false;
 
       setState(() {
-        _notificationsEnabled = granted;
+        enableNotifications = granted;
       });
     }
   }
@@ -130,7 +153,7 @@ class _LogoutState extends State<SettingsPage> {
 
       final bool? granted = await androidImplementation?.requestPermission();
       setState(() {
-        _notificationsEnabled = granted ?? false;
+        enableNotifications = granted ?? false;
       });
     }
   }
