@@ -4,8 +4,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intranet_movil/model/approve_request.dart';
 import 'package:intranet_movil/model/request.dart';
+import 'package:intranet_movil/services/api_manager_request.dart';
 import 'package:intranet_movil/services/api_request.dart';
+import 'package:intranet_movil/services/api_rh_request.dart';
 import 'package:intranet_movil/services/notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -82,10 +85,17 @@ void onStart(ServiceInstance service) async {
   String? token = prefs.getString('token');
 
   late List<RequestModel> _requestModel = [];
+  late List<ApprovedRequestModel>? _managerRequestModel = [];
+  late List<ApprovedRequestModel>? _rhRequestModel = [];
 
   //Lista inicial, tomada como referencia al momento de actualizar las solicitudes
   _requestModel = (await ApiRequestService().getRequest(token.toString()))!
       .cast<RequestModel>();
+  _managerRequestModel =
+      (await ApiManagerRequestService().getManagerRequest(token.toString()))!
+          .cast<ApprovedRequestModel>();
+  _rhRequestModel = (await ApiRhRequestService().getRhRequest())!
+      .cast<ApprovedRequestModel>();
 
   var approvedRequest = _requestModel
       .where((element) => element.humanResourcesStatus == "Aprobada");
@@ -96,10 +106,24 @@ void onStart(ServiceInstance service) async {
 
   var pendingRequest = _requestModel
       .where((element) => element.humanResourcesStatus == "Pendiente");
+
+  var managerRequest = _managerRequestModel
+      .where((element) => element.directManagerStatus == "Pendiente");
+
+  var rhRequest = _rhRequestModel;
+
   // LLamada al servidor para actualizar el estado de las solicitudes
-  Timer.periodic(const Duration(seconds: 5), (timer) async {
+  Timer.periodic(const Duration(seconds: 7), (timer) async {
     _requestModel = (await ApiRequestService().getRequest(token.toString()))!
         .cast<RequestModel>();
+
+    _managerRequestModel =
+        (await ApiManagerRequestService().getManagerRequest(token.toString()))!
+            .cast<ApprovedRequestModel>();
+
+    _rhRequestModel = (await ApiRhRequestService().getRhRequest())!
+        .cast<ApprovedRequestModel>();
+
     //Se filtran las solicitudes por tipo de solicitud
     var newApprovedRequest = _requestModel
         .where((element) => element.humanResourcesStatus == "Aprobada");
@@ -110,9 +134,14 @@ void onStart(ServiceInstance service) async {
 
     var newPendingRequest = _requestModel
         .where((element) => element.humanResourcesStatus == "Pendiente");
+
+    var newManagerRequest = _managerRequestModel!
+        .where((element) => element.directManagerStatus == "Pendiente");
+
+    var newRhRequest = _rhRequestModel!;
+
     //En caso de que el usuario elimina una soliciutd se elimina y se asigna al estado inicial
     if (newPendingRequest.length < pendingRequest.length) {
-      deletedRequestNotification();
       pendingRequest = newPendingRequest;
     }
     if (newApprovedRequest.length > approvedRequest.length) {
@@ -126,6 +155,16 @@ void onStart(ServiceInstance service) async {
     if (newPendingRequest.length > pendingRequest.length) {
       pendingRequestNotification();
       pendingRequest = newPendingRequest;
+    }
+
+    if (newManagerRequest.length > managerRequest.length) {
+      pendingManagerRequestNotification();
+      managerRequest = newManagerRequest;
+    }
+
+    if (newRhRequest.length > rhRequest.length) {
+      pendingManagerRequestNotification();
+      rhRequest = newRhRequest;
     }
   });
 }

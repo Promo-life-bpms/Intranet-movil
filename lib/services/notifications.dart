@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -14,7 +16,7 @@ Future pendingRequestNotification() async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(id++, "Solicitud",
-      "Solicitud creada y enviada para autorizaciòn", notificationDetails);
+      "Solicitud creada y enviada para autorización", notificationDetails);
 }
 
 Future approvedRequestNotification() async {
@@ -27,7 +29,8 @@ Future approvedRequestNotification() async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(
-      id++, "Solicitud", "Tu solicitud fue aprobada", notificationDetails);
+      id++, "Solicitud", "Tu solicitud fue aprobada", notificationDetails,
+      payload: "request");
 }
 
 Future rejectedRequestNotification() async {
@@ -40,7 +43,8 @@ Future rejectedRequestNotification() async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(
-      id++, "Solicitud", "Tu solicitud fue rechazada", notificationDetails);
+      id++, "Solicitud", "Tu solicitud fue rechazada", notificationDetails,
+      payload: "request");
 }
 
 Future deletedRequestNotification() async {
@@ -53,5 +57,19 @@ Future deletedRequestNotification() async {
   const NotificationDetails notificationDetails =
       NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(id++, "Solicitud",
-      "Tu solicitud se eliminó correctamente", notificationDetails);
+      "Tu solicitud se eliminó correctamente", notificationDetails,
+      payload: "request");
+}
+
+Future pendingManagerRequestNotification() async {
+  const AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails('Channel01', 'Solicitudes',
+          channelDescription: 'Canal de notificaciones para las solicitudes',
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: "@mipmap/ic_launcher_round");
+  const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin.show(id++, "Solicitud",
+      "Tienes una nueva solicitud para autorizar", notificationDetails);
 }

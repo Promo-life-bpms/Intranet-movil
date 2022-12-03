@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -8,6 +9,7 @@ import 'package:intranet_movil/services/notifications_background.dart';
 import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/chat/chat_page.dart';
+import 'package:intranet_movil/views/request/request_main_page.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +19,9 @@ class SettingsPage extends StatefulWidget {
   @override
   _LogoutState createState() => _LogoutState();
 }
+
+final StreamController<String?> selectNotificationStream =
+    StreamController<String?>.broadcast();
 
 class _LogoutState extends State<SettingsPage> {
   late bool enableNotifications;
@@ -30,6 +35,7 @@ class _LogoutState extends State<SettingsPage> {
     enableNotifications = false;
     createNotificationChannel();
     getNotificationStatus();
+    configureSelectNotificationSubject();
     super.initState();
   }
 
@@ -156,5 +162,15 @@ class _LogoutState extends State<SettingsPage> {
         enableNotifications = granted ?? false;
       });
     }
+  }
+
+  void configureSelectNotificationSubject() {
+    selectNotificationStream.stream.listen((String? payload) async {
+      if (payload == "request") {
+        await Navigator.of(context).push(MaterialPageRoute<void>(
+          builder: (BuildContext context) => const RequestMainPage(),
+        ));
+      }
+    });
   }
 }
