@@ -4,41 +4,40 @@ import 'package:http/http.dart' as http;
 import 'package:intranet_movil/views/request/widget/successful_alert_dialog.dart';
 import 'package:intranet_movil/views/request/widget/wrong_alert_dialog.dart';
 
+Future postRequest(
+    String token,
+    String typeRequest,
+    String payment,
+    String start,
+    String daysToSend,
+    String reason,
+    String daysAvailables,
+    String revealID,
+    BuildContext context) async {
+  String url =
+      ApiIntranetConstans.baseUrl + ApiIntranetConstans.postCreateRequest;
+  final response = await http.post(Uri.parse(url), body: {
+    'token': token,
+    'typeRequest': typeRequest,
+    'payment': payment,
+    'start': start,
+    'days': daysToSend,
+    'reason': reason,
+    'revealID': revealID,
+    'daysAvailables': daysAvailables,
+  }, headers: {
+    'Accept': 'application/json',
+  });
 
- Future postRequest(
-      String token,
-      String typeRequest,
-      String payment,
-      String start,
-      String daysToSend,
-      String reason,
-      String daysAvailables,
-      String revealID,
-      BuildContext context) async {
-    String url =
-        ApiIntranetConstans.baseUrl + ApiIntranetConstans.postCreateRequest;
-    final response = await http.post(Uri.parse(url), body: {
-      'token': token,
-      'typeRequest': typeRequest,
-      'payment': payment,
-      'start': start,
-      'days': daysToSend,
-      'reason': reason,
-      'revealID': revealID,
-      'daysAvailables': daysAvailables,
-    }, headers: {
-      'Accept': 'application/json',
-    });
+  if (response.statusCode == 200) {
+    SuccessfulAlertDialog.showAlertDialog(context);
 
-    if (response.statusCode == 200) {
-      SuccessfulAlertDialog.showAlertDialog(context);
-     
-      return true;
-    }
+    return true;
+  }
 
-    if (response.statusCode == 500) {
-      WrongAlertDialog.showAlertDialog(context);
-      return false;
-    }
+  if (response.statusCode == 500) {
+    WrongAlertDialog.showAlertDialog(context);
     return false;
   }
+  return false;
+}

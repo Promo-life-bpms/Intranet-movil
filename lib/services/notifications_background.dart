@@ -110,7 +110,8 @@ void onStart(ServiceInstance service) async {
   var managerRequest = _managerRequestModel
       .where((element) => element.directManagerStatus == "Pendiente");
 
-  var rhRequest = _rhRequestModel;
+  var rhRequest = _rhRequestModel
+      .where((element) => element.humanResourcesStatus == "Pendiente");
 
   // LLamada al servidor para actualizar el estado de las solicitudes
   Timer.periodic(const Duration(seconds: 7), (timer) async {
@@ -138,30 +139,41 @@ void onStart(ServiceInstance service) async {
     var newManagerRequest = _managerRequestModel!
         .where((element) => element.directManagerStatus == "Pendiente");
 
-    var newRhRequest = _rhRequestModel!;
+    var newRhRequest = _rhRequestModel!
+        .where((element) => element.humanResourcesStatus == "Pendiente");
 
     //En caso de que el usuario elimina una soliciutd se elimina y se asigna al estado inicial
     if (newPendingRequest.length < pendingRequest.length) {
-      pendingRequest = newPendingRequest;
+      if (newApprovedRequest.length > approvedRequest.length) {
+        approvedRequestNotification();
+        approvedRequest = newApprovedRequest;
+      }
+
+      //Solicitud rechazada por RH o Manager
+      if (newRejectedRequest.length > rejectedRequest.length) {
+        rejectedRequestNotification();
+        rejectedRequest = newRejectedRequest;
+      }
     }
+    //Solicitud Aprobada por RH
     if (newApprovedRequest.length > approvedRequest.length) {
       approvedRequestNotification();
       approvedRequest = newApprovedRequest;
     }
+
+    //Solicitud rechazada por RH o Manager
     if (newRejectedRequest.length > rejectedRequest.length) {
       rejectedRequestNotification();
       rejectedRequest = newRejectedRequest;
     }
-    if (newPendingRequest.length > pendingRequest.length) {
-      pendingRequestNotification();
-      pendingRequest = newPendingRequest;
-    }
 
+    //Notificacion a Manager
     if (newManagerRequest.length > managerRequest.length) {
       pendingManagerRequestNotification();
       managerRequest = newManagerRequest;
     }
 
+    //Notificacion a RH
     if (newRhRequest.length > rhRequest.length) {
       pendingManagerRequestNotification();
       rhRequest = newRhRequest;
