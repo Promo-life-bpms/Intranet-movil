@@ -84,6 +84,7 @@ void onStart(ServiceInstance service) async {
   final prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 
+  print(token);
   late List<RequestModel> _requestModel = [];
   late List<ApprovedRequestModel>? _managerRequestModel = [];
   late List<ApprovedRequestModel>? _rhRequestModel = [];
@@ -117,7 +118,7 @@ void onStart(ServiceInstance service) async {
   Timer.periodic(const Duration(seconds: 7), (timer) async {
     _requestModel = (await ApiRequestService().getRequest(token.toString()))!
         .cast<RequestModel>();
-
+    print(token);
     _managerRequestModel =
         (await ApiManagerRequestService().getManagerRequest(token.toString()))!
             .cast<ApprovedRequestModel>();

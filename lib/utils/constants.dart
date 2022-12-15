@@ -5,7 +5,7 @@ class ApiIntranetConstans {
   // URL del servidor de pruebas
   // static String baseUrl = 'https://dev-intranet.promolife.lat/';
   //Servidor de produccion
-  static String baseUrl = 'https://dev-intranet.promolife.lat/';
+  static String baseUrl = 'https://intranet.promolife.lat/';
 
   static String loginEndpoint = 'api/login';
   static String getUser = 'api/getUser/';
