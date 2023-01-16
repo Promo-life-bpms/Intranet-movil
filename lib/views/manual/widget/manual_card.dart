@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/manual.dart';
@@ -65,7 +67,7 @@ class _ManualCardState extends State<ManualCard> {
                             ColorIntranetConstants.primaryColorNormal),
                     onPressed: () {
                       LaunchToInternet.launchURL(ApiIntranetConstans.baseUrl +
-                          widget.manualData[0].file);
+                          widget.manualData[0].file.replaceAll(' ', '%20'));
                     },
                     child: const Text('ABRIR'),
                   ),
