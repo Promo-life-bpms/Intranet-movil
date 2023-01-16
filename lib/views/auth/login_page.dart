@@ -90,7 +90,7 @@ class LoginFormState extends State<LoginForm> {
                                             Icons.mail,
                                           )),
                                       validator: (value) => value!.isEmpty
-                                          ? 'Este campo no puede estar vacio'
+                                          ? 'Verifica los campos e intenta nuevamente'
                                           : null,
                                       onSaved: (value) =>
                                           _email = value.toString(),
@@ -106,7 +106,7 @@ class LoginFormState extends State<LoginForm> {
                                       ),
                                       obscureText: true,
                                       validator: (value) => value!.isEmpty
-                                          ? 'Este campo no puede estar vacio'
+                                          ? 'Verifica los campos e intenta nuevamente'
                                           : null,
                                       onSaved: (value) =>
                                           _password = value.toString(),
