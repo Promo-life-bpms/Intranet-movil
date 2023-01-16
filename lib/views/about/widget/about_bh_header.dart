@@ -21,7 +21,7 @@ class _AboutBHHeaderState extends State<AboutBHHeaderWidget> {
             BlendMode.softLight,
           ),
           image: NetworkImage(
-              "http://www.trademarket.com.mx/assets/imgs/quienes.jpg"),
+              'https://trademarket.com.mx/wp-content/uploads/2022/10/FOTO-BH-scaled-1.jpg'),
           fit: BoxFit.cover,
         ),
       ),

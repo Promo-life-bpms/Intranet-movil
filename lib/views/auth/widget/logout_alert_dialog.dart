@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intranet_movil/services/api_auth.dart';
@@ -14,8 +16,13 @@ class LogoutAlertDialog {
       child: const Text("Aceptar"),
       onPressed: () {
         AuthProvider().logout();
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-        SystemNavigator.pop();
+
+        if (Platform.isIOS) {
+          exit(0);
+        } else {
+          Navigator.of(context, rootNavigator: true).pop('dialog');
+          SystemNavigator.pop();
+        }
       },
     );
 

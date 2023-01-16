@@ -27,38 +27,48 @@ class _ManualCardState extends State<ManualCard> {
           padding: const EdgeInsets.only(bottom: 20.0),
           child: Column(
             children: [
-              SizedBox(
-                width: double.infinity,
-                height: 160.0,
-                child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: CachedNetworkImage(
-                      imageUrl: ApiIntranetConstans.baseUrl +
-                          widget.manualData[0].img,
-                      errorWidget: (context, url, error) =>
-                          const Image(image: AssetImage("lib/assets/pdf.png")),
-                    )),
-              ),
-              Text(
-                widget.manualData[0].name,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20.00,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 160.0,
+                  child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: CachedNetworkImage(
+                        imageUrl: ApiIntranetConstans.baseUrl +
+                            widget.manualData[0].img,
+                        errorWidget: (context, url, error) => const Image(
+                            image: AssetImage("lib/assets/pdf.png")),
+                      )),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  widget.manualData[0].name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
               ),
-              SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    LaunchToInternet.launchURL(ApiIntranetConstans.baseUrl +
-                        widget.manualData[0].file);
-                  },
-                  child: const Text('ABRIR'),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 20, bottom: 5, left: 20, right: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            ColorIntranetConstants.primaryColorNormal),
+                    onPressed: () {
+                      LaunchToInternet.launchURL(ApiIntranetConstans.baseUrl +
+                          widget.manualData[0].file);
+                    },
+                    child: const Text('ABRIR'),
+                  ),
                 ),
               ),
             ],

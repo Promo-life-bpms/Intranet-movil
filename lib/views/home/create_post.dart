@@ -223,39 +223,45 @@ class _HomeState extends State<CreatePostPage> {
                   } else {
                     return Column(
                       children: [
-                        Container(
-                          width: double.infinity,
-                          height: 60,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: const Color.fromARGB(255, 216, 216,
-                                  216), //                   <--- border color
-                              width: 0.3,
-                            ),
-                          ),
-                          child: InkWell(
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  Icons.photo_camera,
-                                  color:
-                                      ColorIntranetConstants.primaryColorNormal,
+                        Platform.isAndroid
+                            ? Container(
+                                width: double.infinity,
+                                height: 60,
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: const Color.fromARGB(255, 216, 216,
+                                        216), //                   <--- border color
+                                    width: 0.3,
+                                  ),
                                 ),
-                                Padding(padding: EdgeInsets.only(left: 8)),
-                                Text("Subir imagen")
-                              ],
-                            ),
-                            onTap: () {
-                              if (loadFuture == false) {
-                                loadFuture = true;
-                              }
-                              _getData();
-                            },
-                          ),
-                        ),
+                                child: InkWell(
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.photo_camera,
+                                        color: ColorIntranetConstants
+                                            .primaryColorNormal,
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 8)),
+                                      Text("Subir imagen")
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    if (loadFuture == false) {
+                                      loadFuture = true;
+                                    }
+                                    _getData();
+                                  },
+                                ),
+                              )
+                            : const Padding(padding: EdgeInsets.zero),
                         Padding(
-                          padding: const EdgeInsets.only(top: 32),
+                          padding: Platform.isAndroid
+                              ? const EdgeInsets.only(top: 32)
+                              : const EdgeInsets.only(
+                                  left: 20, right: 20, top: 32),
                           child: SizedBox(
                             width: double.infinity,
                             height: 60,
@@ -309,7 +315,7 @@ class _HomeState extends State<CreatePostPage> {
                       ],
                     );
                   }
-                }),
+                })
           ],
         ),
       ),

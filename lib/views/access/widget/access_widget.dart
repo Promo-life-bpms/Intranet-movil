@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/access.dart';
 import 'package:intranet_movil/services/internet.dart';
+import 'package:intranet_movil/utils/constants.dart';
 
 class AccessCard extends StatefulWidget {
   const AccessCard({Key? key, required this.accessData}) : super(key: key);
@@ -24,7 +25,7 @@ class _AccessCardState extends State<AccessCard> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Column(
-              children: <Widget>[
+              children: [
                 SizedBox(
                   width: double.infinity,
                   height: 160.0,
@@ -36,21 +37,25 @@ class _AccessCardState extends State<AccessCard> {
                 ),
                 Text(
                   widget.accessData[0].accName,
-                  style: const TextStyle(
-                      fontSize: 20.00, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 16.00),
                   textAlign: TextAlign.center,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                ),
-                SizedBox(
-                  width: 200,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      LaunchToInternet.launchURL(widget.accessData[0].accLink);
-                    },
-                    child: const Text('ABRIR'),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20, bottom: 5, left: 20, right: 20),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              ColorIntranetConstants.primaryColorNormal),
+                      onPressed: () {
+                        LaunchToInternet.launchURL(
+                            widget.accessData[0].accLink);
+                      },
+                      child: const Text('ABRIR'),
+                    ),
                   ),
                 ),
               ],
