@@ -52,7 +52,7 @@ class _AccessCardState extends State<AccessCard> {
                               ColorIntranetConstants.primaryColorNormal),
                       onPressed: () {
                         LaunchToInternet.launchURL(
-                            widget.accessData[0].accLink);
+                            widget.accessData[0].accLink, context);
                       },
                       child: const Text('ABRIR'),
                     ),

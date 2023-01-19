@@ -140,7 +140,8 @@ class _PublicationContainerState extends State<PublicationContainer> {
                     padding:
                         const EdgeInsets.only(left: 0, top: 10, bottom: 10),
                     child: SelectableLinkify(
-                      onOpen: (link) => LaunchToInternet.launchURL(link.url),
+                      onOpen: (link) =>
+                          LaunchToInternet.launchURL(link.url, context),
                       text: widget.publicationData[0].contentPublication,
                       style: const TextStyle(
                         fontSize: 12.00,

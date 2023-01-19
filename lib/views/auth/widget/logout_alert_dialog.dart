@@ -18,6 +18,7 @@ class LogoutAlertDialog {
         AuthProvider().logout();
 
         if (Platform.isIOS) {
+          AuthProvider().logout();
           exit(0);
         } else {
           Navigator.of(context, rootNavigator: true).pop('dialog');

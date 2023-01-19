@@ -33,8 +33,8 @@ class _MyMessageItemState extends State<MyMessageItem> {
                   ),
                   padding: const EdgeInsets.all(12),
                   child: SelectableLinkify(
-                    onOpen: (link) =>
-                        LaunchToInternet.launchURL(widget.conversation),
+                    onOpen: (link) => LaunchToInternet.launchURL(
+                        widget.conversation, context),
                     text: widget.conversation,
                     style: const TextStyle(color: Colors.white),
                     textAlign: TextAlign.justify,

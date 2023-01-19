@@ -66,8 +66,10 @@ class _ManualCardState extends State<ManualCard> {
                         backgroundColor:
                             ColorIntranetConstants.primaryColorNormal),
                     onPressed: () {
-                      LaunchToInternet.launchURL(ApiIntranetConstans.baseUrl +
-                          widget.manualData[0].file.replaceAll(' ', '%20'));
+                      LaunchToInternet.launchURL(
+                          ApiIntranetConstans.baseUrl +
+                              widget.manualData[0].file.replaceAll(' ', '%20'),
+                          context);
                     },
                     child: const Text('ABRIR'),
                   ),
