@@ -63,8 +63,7 @@ class _ManualCardState extends State<ManualCard> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            ColorIntranetConstants.primaryColorNormal),
+                        primary: ColorIntranetConstants.primaryColorNormal),
                     onPressed: () {
                       LaunchToInternet.launchURL(
                           ApiIntranetConstans.baseUrl +

@@ -170,8 +170,8 @@ class _HomeState extends State<CreatePostPage> {
                             height: 60,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: ColorIntranetConstants
+                                  onPrimary: Colors.white,
+                                  primary: ColorIntranetConstants
                                       .primaryColorNormal, // foreground
                                 ),
                                 onPressed: () => {
@@ -267,8 +267,8 @@ class _HomeState extends State<CreatePostPage> {
                             height: 60,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: ColorIntranetConstants
+                                  primary: Colors.white,
+                                  onPrimary: ColorIntranetConstants
                                       .primaryColorNormal, // foreground
                                 ),
                                 onPressed: () => {

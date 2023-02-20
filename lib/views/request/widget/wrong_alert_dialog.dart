@@ -65,8 +65,8 @@ class WrongAlertDialog {
                             height: 60,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: ColorIntranetConstants
+                                onPrimary: Colors.white,
+                                primary: ColorIntranetConstants
                                     .primaryColorNormal, // foreground
                               ),
                               onPressed: () {
