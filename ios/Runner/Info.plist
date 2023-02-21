@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>El acceso al microfono es para que puedas tomar videos con audio y usarlo como publicación.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>El acceso a las fotos es para que puedas subir fotos o videos como publicaciones de la app.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
