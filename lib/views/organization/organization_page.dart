@@ -7,7 +7,8 @@ import 'package:intranet_movil/views/organization/modules/organization.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 
 class OrganizationPage extends StatefulWidget {
-  const OrganizationPage({Key? key, required this.directoryData}) : super(key: key);
+  const OrganizationPage({Key? key, required this.directoryData})
+      : super(key: key);
   final List<DirectoryModel> directoryData;
 
   @override
@@ -21,15 +22,16 @@ class _HomeState extends State<OrganizationPage> {
   @override
   void initState() {
     super.initState();
-     if(widget.directoryData.isNotEmpty){
-        _directoryList = widget.directoryData;
-    }else{
+    if (widget.directoryData.isNotEmpty) {
+      _directoryList = widget.directoryData;
+    } else {
       _getData();
     }
   }
 
   void _getData() async {
-    _directoryModel = (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
+    _directoryModel =
+        (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
     setState(() {
       _directoryList = _directoryModel;
     });
@@ -54,7 +56,7 @@ class _HomeState extends State<OrganizationPage> {
         child: Scaffold(
           drawer: const NavigationDrawerWidget(),
           appBar: AppBar(
-            actions: [
+            /* actions: [
           Padding(
               padding:const  EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -67,7 +69,7 @@ class _HomeState extends State<OrganizationPage> {
                 ),
               ),
             ),
-        ],
+        ], */
             bottom: TabBar(
                 isScrollable: true,
                 unselectedLabelColor: Colors.white.withOpacity(0.3),
@@ -96,31 +98,29 @@ class _HomeState extends State<OrganizationPage> {
                     child: Text(StringIntranetConstants.organizationDesingPage),
                   ),
                   Tab(
-                    child: Text(StringIntranetConstants.organizationTechnologyPage),
+                    child: Text(
+                        StringIntranetConstants.organizationTechnologyPage),
                   ),
                   Tab(
                     child: Text(StringIntranetConstants.organizationSystemPage),
                   ),
                   Tab(
-                    child:
-                        Text(StringIntranetConstants.organizationImportPage),
+                    child: Text(StringIntranetConstants.organizationImportPage),
                   ),
                   Tab(
-                    child: Text(
-                        StringIntranetConstants.organizationCancunPage),
-                  ),
-                  Tab(
-                    child: Text(StringIntranetConstants.organizationOperationPage),
+                    child: Text(StringIntranetConstants.organizationCancunPage),
                   ),
                   Tab(
                     child:
-                        Text(StringIntranetConstants.organizationStorePage),
+                        Text(StringIntranetConstants.organizationOperationPage),
                   ),
                   Tab(
-                    child: Text(
-                        StringIntranetConstants.organizationLogisticPage),
+                    child: Text(StringIntranetConstants.organizationStorePage),
                   ),
-                  
+                  Tab(
+                    child:
+                        Text(StringIntranetConstants.organizationLogisticPage),
+                  ),
                 ]),
             title: const Text(StringIntranetConstants.organizationPage),
           ),
@@ -178,7 +178,6 @@ class _HomeState extends State<OrganizationPage> {
                   directoryModel: _directoryList!
                       .where((i) => i.department == "Logistica")
                       .toList()),
-              
             ],
           ),
         ),

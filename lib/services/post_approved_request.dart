@@ -15,8 +15,8 @@ Future postApprovedRequest(
   });
 
   if (response.statusCode == 200) {
-    pendingManagerRequestNotification();
-
+/*     pendingManagerRequestNotification();
+ */
     return true;
   }
 

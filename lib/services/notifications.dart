@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+/* 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 int id = 0;
@@ -73,3 +73,4 @@ Future pendingManagerRequestNotification() async {
   await flutterLocalNotificationsPlugin.show(id++, "Solicitud",
       "Tienes una nueva solicitud para autorizar", notificationDetails);
 }
+ */

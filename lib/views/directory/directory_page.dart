@@ -10,7 +10,8 @@ import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:intranet_movil/widget/skeletons/list_view_company.dart';
 
 class DirectoryPage extends StatefulWidget {
-  const DirectoryPage({Key? key, required this.directoryData}) : super(key: key);
+  const DirectoryPage({Key? key, required this.directoryData})
+      : super(key: key);
   final List<DirectoryModel> directoryData;
 
   @override
@@ -20,7 +21,6 @@ class DirectoryPage extends StatefulWidget {
 class _HomeState extends State<DirectoryPage> {
   late List<DirectoryModel>? _directoryModel = [];
 
-
   static List<DirectoryModel>? _directoryList = [];
   static List<DirectoryModel>? _directoryListSearch = [];
   final _debouncer = Debouncer();
@@ -29,17 +29,17 @@ class _HomeState extends State<DirectoryPage> {
   void initState() {
     super.initState();
 
-     if(widget.directoryData.isNotEmpty){
-        _directoryList = widget.directoryData;
-        _directoryListSearch = widget.directoryData;
-    }else{
+    if (widget.directoryData.isNotEmpty) {
+      _directoryList = widget.directoryData;
+      _directoryListSearch = widget.directoryData;
+    } else {
       _getData();
     }
-   
   }
 
   void _getData() async {
-    _directoryModel = (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
+    _directoryModel =
+        (await ApiDirectoryService().getDirectory())!.cast<DirectoryModel>();
     setState(() {
       _directoryList = _directoryModel;
       _directoryListSearch = _directoryModel;
@@ -52,7 +52,7 @@ class _HomeState extends State<DirectoryPage> {
     return Scaffold(
         drawer: const NavigationDrawerWidget(),
         appBar: AppBar(
-          actions: [
+          /* actions: [
           Padding(
               padding:const  EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -65,7 +65,7 @@ class _HomeState extends State<DirectoryPage> {
                 ),
               ),
             ),
-        ],
+        ], */
           title: const Text(StringIntranetConstants.directoryPage),
         ),
         body: _directoryList == null || _directoryList!.isEmpty
@@ -108,9 +108,9 @@ class _HomeState extends State<DirectoryPage> {
                                         )),
                                   )
                                   .toList();
-                               if(_directoryListSearch!.isEmpty){
-                                _directoryListSearch = _directoryList; 
-                               }   
+                              if (_directoryListSearch!.isEmpty) {
+                                _directoryListSearch = _directoryList;
+                              }
                             });
                           });
                         },
@@ -122,24 +122,32 @@ class _HomeState extends State<DirectoryPage> {
                               _directoryListSearch!.length,
                               (index) => DirectoryModel(
                                   id: _directoryListSearch![index].id,
-                                  fullname: _directoryListSearch![index].fullname,
+                                  fullname:
+                                      _directoryListSearch![index].fullname,
                                   email: _directoryListSearch![index].email,
                                   photo: _directoryListSearch![index].photo,
-                                  department:_directoryListSearch![index].department,
-                                  position: _directoryListSearch![index].position,
-                                  onlineStatus: _directoryListSearch![index].onlineStatus,
+                                  department:
+                                      _directoryListSearch![index].department,
+                                  position:
+                                      _directoryListSearch![index].position,
+                                  onlineStatus:
+                                      _directoryListSearch![index].onlineStatus,
                                   data: _directoryListSearch![index].data)))
                       : DirectoryBuilder(
                           directoryData: List<DirectoryModel>.generate(
                               _directoryListSearch!.length,
                               (index) => DirectoryModel(
                                   id: _directoryListSearch![index].id,
-                                  fullname:_directoryListSearch![index].fullname,
+                                  fullname:
+                                      _directoryListSearch![index].fullname,
                                   email: _directoryListSearch![index].email,
                                   photo: _directoryListSearch![index].photo,
-                                  department: _directoryListSearch![index].department,
-                                  position: _directoryListSearch![index].position,
-                                  onlineStatus: _directoryListSearch![index].onlineStatus,
+                                  department:
+                                      _directoryListSearch![index].department,
+                                  position:
+                                      _directoryListSearch![index].position,
+                                  onlineStatus:
+                                      _directoryListSearch![index].onlineStatus,
                                   data: _directoryListSearch![index].data)))
                 ],
               ));

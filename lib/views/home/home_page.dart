@@ -149,7 +149,7 @@ class _HomeState extends State<HomePage> {
         drawer: NavigationDrawerWidget(userData: _userList),
         appBar: AppBar(
           title: const Text(_title),
-          actions: [
+          /* actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -162,7 +162,7 @@ class _HomeState extends State<HomePage> {
                 ),
               ),
             ),
-          ],
+          ], */
         ),
         body: RefreshIndicator(
           key: _refreshIndicatorKey,

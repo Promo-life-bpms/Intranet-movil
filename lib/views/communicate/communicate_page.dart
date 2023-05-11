@@ -8,8 +8,9 @@ import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:intranet_movil/widget/skeletons/list_view_cards.dart';
 
 class CommunicatePage extends StatefulWidget {
-  const CommunicatePage({Key? key, required this.communiqueData}) : super(key: key);
- final List<CommuniqueModel>? communiqueData;
+  const CommunicatePage({Key? key, required this.communiqueData})
+      : super(key: key);
+  final List<CommuniqueModel>? communiqueData;
   @override
   _HomeState createState() => _HomeState();
 }
@@ -18,20 +19,19 @@ class _HomeState extends State<CommunicatePage> {
   late List<CommuniqueModel>? _communiqueModel = [];
   static List<CommuniqueModel>? _communiqueList = [];
 
-
   @override
   void initState() {
     super.initState();
-    if(widget.communiqueData!.isNotEmpty){
+    if (widget.communiqueData!.isNotEmpty) {
       _communiqueList = widget.communiqueData;
-    }else{
+    } else {
       _getData();
     }
-
   }
 
   void _getData() async {
-    _communiqueModel = (await ApiCommuniqueService().getCommunique())!.cast<CommuniqueModel>();
+    _communiqueModel =
+        (await ApiCommuniqueService().getCommunique())!.cast<CommuniqueModel>();
     setState(() {
       _communiqueList = _communiqueModel;
     });
@@ -43,7 +43,7 @@ class _HomeState extends State<CommunicatePage> {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
               padding:const  EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -56,7 +56,7 @@ class _HomeState extends State<CommunicatePage> {
                 ),
               ),
             ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.communiquePage),
       ),
       body: _communiqueList == null || _communiqueList!.isEmpty

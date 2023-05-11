@@ -15,7 +15,7 @@ class AboutMainPage extends StatelessWidget {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: GestureDetector(
@@ -28,7 +28,7 @@ class AboutMainPage extends StatelessWidget {
               ),
             ),
           ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.aboutPage),
       ),
       body: const AboutWidget(),

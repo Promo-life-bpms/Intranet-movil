@@ -15,17 +15,16 @@ class AccessPage extends StatefulWidget {
 }
 
 class _State extends State<AccessPage> {
-  
   List<String> accessName = ListIntranetConstants().accessName;
   List<String> accessImage = ListIntranetConstants().accessImage;
-  List<String> accessLink =ListIntranetConstants().accessLink;
+  List<String> accessLink = ListIntranetConstants().accessLink;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
               padding:const  EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -38,7 +37,7 @@ class _State extends State<AccessPage> {
                 ),
               ),
             ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.accessPage),
       ),
       body: AccessBuilder(

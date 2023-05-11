@@ -39,7 +39,7 @@ class _AniversaryHomeState extends State<AniversaryHomePage> {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: GestureDetector(
@@ -52,7 +52,7 @@ class _AniversaryHomeState extends State<AniversaryHomePage> {
               ),
             ),
           ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.aniversaryBirthdayPage),
       ),
       body: SingleChildScrollView(

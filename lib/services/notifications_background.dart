@@ -115,7 +115,7 @@ void onStart(ServiceInstance service) async {
       .where((element) => element.humanResourcesStatus == "Pendiente");
 
   // LLamada al servidor para actualizar el estado de las solicitudes
-  Timer.periodic(const Duration(seconds: 7), (timer) async {
+  Timer.periodic(const Duration(seconds: 10000), (timer) async {
     _requestModel = (await ApiRequestService().getRequest(token.toString()))!
         .cast<RequestModel>();
     print(token);
@@ -146,37 +146,37 @@ void onStart(ServiceInstance service) async {
     //En caso de que el usuario elimina una soliciutd se elimina y se asigna al estado inicial
     if (newPendingRequest.length < pendingRequest.length) {
       if (newApprovedRequest.length > approvedRequest.length) {
-        approvedRequestNotification();
+        /*   approvedRequestNotification(); */
         approvedRequest = newApprovedRequest;
       }
 
       //Solicitud rechazada por RH o Manager
       if (newRejectedRequest.length > rejectedRequest.length) {
-        rejectedRequestNotification();
+        /*     rejectedRequestNotification(); */
         rejectedRequest = newRejectedRequest;
       }
     }
     //Solicitud Aprobada por RH
     if (newApprovedRequest.length > approvedRequest.length) {
-      approvedRequestNotification();
+      /*    approvedRequestNotification(); */
       approvedRequest = newApprovedRequest;
     }
 
     //Solicitud rechazada por RH o Manager
     if (newRejectedRequest.length > rejectedRequest.length) {
-      rejectedRequestNotification();
+      /* rejectedRequestNotification(); */
       rejectedRequest = newRejectedRequest;
     }
 
     //Notificacion a Manager
     if (newManagerRequest.length > managerRequest.length) {
-      pendingManagerRequestNotification();
+      /*  pendingManagerRequestNotification(); */
       managerRequest = newManagerRequest;
     }
 
     //Notificacion a RH
     if (newRhRequest.length > rhRequest.length) {
-      pendingManagerRequestNotification();
+      /*  pendingManagerRequestNotification(); */
       rhRequest = newRhRequest;
     }
   });

@@ -73,7 +73,7 @@ class _HomeState extends State<RequestMainPage> {
         child: Scaffold(
           drawer: const NavigationDrawerWidget(),
           appBar: AppBar(
-            actions: [
+            /* actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: GestureDetector(
@@ -86,7 +86,7 @@ class _HomeState extends State<RequestMainPage> {
                   ),
                 ),
               ),
-            ],
+            ], */
             bottom: TabBar(
                 isScrollable: true,
                 unselectedLabelColor: Colors.white.withOpacity(0.3),

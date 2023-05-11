@@ -23,14 +23,13 @@ class _HomeState extends State<ManualPage> {
   @override
   void initState() {
     super.initState();
- 
-    if(widget.manualData.isNotEmpty ){
+
+    if (widget.manualData.isNotEmpty) {
       _manualList = widget.manualData;
       _getData();
-    }else{
+    } else {
       _getData();
     }
-   
   }
 
   void _getData() async {
@@ -46,7 +45,7 @@ class _HomeState extends State<ManualPage> {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
               padding:const  EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -59,10 +58,10 @@ class _HomeState extends State<ManualPage> {
                 ),
               ),
             ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.manualPage),
       ),
-      body: _manualList == null || _manualList!.isEmpty 
+      body: _manualList == null || _manualList!.isEmpty
           ? const ListviewCardsExamplePage()
           : ListView.builder(
               padding: const EdgeInsets.all(8),

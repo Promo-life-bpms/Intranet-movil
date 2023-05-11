@@ -10,18 +10,14 @@ import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 
 class RHRequestPage extends StatefulWidget {
   const RHRequestPage({Key? key}) : super(key: key);
- 
+
   @override
   _RHRequestPage createState() => _RHRequestPage();
 }
 
 class _RHRequestPage extends State<RHRequestPage> {
-  
-  
   late List<ApprovedRequestModel>? _approvedRequestModel = [];
   late List<ApprovedRequestModel>? _approvedRequestModel2 = [];
-
-
 
   @override
   void initState() {
@@ -30,20 +26,21 @@ class _RHRequestPage extends State<RHRequestPage> {
   }
 
   void _getData() async {
+    _approvedRequestModel = (await ApiRhRequestService().getRhRequest())!
+        .cast<ApprovedRequestModel>();
 
-    _approvedRequestModel = (await ApiRhRequestService().getRhRequest())!.cast<ApprovedRequestModel>();
-   
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
-   Stream<List<ApprovedRequestModel>?> _request() async* {
+  Stream<List<ApprovedRequestModel>?> _request() async* {
     while (true) {
       await Future<void>.delayed(const Duration(seconds: 2));
-      _approvedRequestModel2 = (await ApiRhRequestService().getRhRequest())!.cast<ApprovedRequestModel>();
+      _approvedRequestModel2 = (await ApiRhRequestService().getRhRequest())!
+          .cast<ApprovedRequestModel>();
       yield _approvedRequestModel2;
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -60,9 +57,9 @@ class _RHRequestPage extends State<RHRequestPage> {
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
-          drawer: const NavigationDrawerWidget(),
-          appBar: AppBar(
-            actions: [
+            drawer: const NavigationDrawerWidget(),
+            appBar: AppBar(
+              /* actions: [
               Padding(
                   padding:const  EdgeInsets.only(right: 8.0),
                   child: GestureDetector(
@@ -75,53 +72,66 @@ class _RHRequestPage extends State<RHRequestPage> {
                     ),
                   ),
                 ),
-            ],
-            bottom: TabBar(
-                isScrollable: true,
-                unselectedLabelColor: Colors.white.withOpacity(0.3),
-                indicatorColor: Colors.white,
-                tabs: const [
-                  Tab(
-                    child:
-                        Text(StringIntranetConstants.requestPendingPage),
-                  ),
-                  Tab(
-                    child: Text(StringIntranetConstants.requestApprovedPage),
-                  ),
-                  Tab(
-                    child: Text(
-                        StringIntranetConstants.requestRejectedPage),
-                  ),
-                 
-                ]),
-            title: const Text(StringIntranetConstants.managerApproveRequest),
-          ),
-          body: 
-          StreamBuilder(
-                  stream: _request(),
-                  builder:
-                      (context, AsyncSnapshot<List<ApprovedRequestModel>?> snapshot) {
-                    
-                    if (snapshot.hasData) {
-                      _approvedRequestModel = _approvedRequestModel2;
-                      TabBarView(
-            children: [
-              PendingRhRequestPage(approvedModel: _approvedRequestModel!.reversed.where((element) => element.humanResourcesStatus == "Pendiente").toList()),
-              ApprovedRhRequestPage(approvedModel: _approvedRequestModel!.reversed.where((element) => element.humanResourcesStatus == "Aprobada").toList()),
-              RejectedRhRequestPage(approvedModel: _approvedRequestModel!.reversed.where((element) => element.humanResourcesStatus == "Rechazada" ).toList())   
-              ] 
-            );
-                    }
-                    return TabBarView(
-            children: [
-              PendingRhRequestPage(approvedModel: _approvedRequestModel!.reversed.where((element) => element.humanResourcesStatus == "Pendiente").toList()),
-              ApprovedRhRequestPage(approvedModel: _approvedRequestModel!.reversed.where((element) => element.humanResourcesStatus == "Aprobada").toList()),
-              RejectedRhRequestPage(approvedModel: _approvedRequestModel!.reversed.where((element) => element.humanResourcesStatus == "Rechazada" ).toList())   
-              ] 
-            );
-            }
-          )
-        ),
+            ], */
+              bottom: TabBar(
+                  isScrollable: true,
+                  unselectedLabelColor: Colors.white.withOpacity(0.3),
+                  indicatorColor: Colors.white,
+                  tabs: const [
+                    Tab(
+                      child: Text(StringIntranetConstants.requestPendingPage),
+                    ),
+                    Tab(
+                      child: Text(StringIntranetConstants.requestApprovedPage),
+                    ),
+                    Tab(
+                      child: Text(StringIntranetConstants.requestRejectedPage),
+                    ),
+                  ]),
+              title: const Text(StringIntranetConstants.managerApproveRequest),
+            ),
+            body: StreamBuilder(
+                stream: _request(),
+                builder: (context,
+                    AsyncSnapshot<List<ApprovedRequestModel>?> snapshot) {
+                  if (snapshot.hasData) {
+                    _approvedRequestModel = _approvedRequestModel2;
+                    TabBarView(children: [
+                      PendingRhRequestPage(
+                          approvedModel: _approvedRequestModel!.reversed
+                              .where((element) =>
+                                  element.humanResourcesStatus == "Pendiente")
+                              .toList()),
+                      ApprovedRhRequestPage(
+                          approvedModel: _approvedRequestModel!.reversed
+                              .where((element) =>
+                                  element.humanResourcesStatus == "Aprobada")
+                              .toList()),
+                      RejectedRhRequestPage(
+                          approvedModel: _approvedRequestModel!.reversed
+                              .where((element) =>
+                                  element.humanResourcesStatus == "Rechazada")
+                              .toList())
+                    ]);
+                  }
+                  return TabBarView(children: [
+                    PendingRhRequestPage(
+                        approvedModel: _approvedRequestModel!.reversed
+                            .where((element) =>
+                                element.humanResourcesStatus == "Pendiente")
+                            .toList()),
+                    ApprovedRhRequestPage(
+                        approvedModel: _approvedRequestModel!.reversed
+                            .where((element) =>
+                                element.humanResourcesStatus == "Aprobada")
+                            .toList()),
+                    RejectedRhRequestPage(
+                        approvedModel: _approvedRequestModel!.reversed
+                            .where((element) =>
+                                element.humanResourcesStatus == "Rechazada")
+                            .toList())
+                  ]);
+                })),
       ),
     );
   }

@@ -19,7 +19,7 @@ class _LogoutState extends State<LogoutPage> {
       backgroundColor: Colors.white,
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: GestureDetector(
@@ -32,7 +32,7 @@ class _LogoutState extends State<LogoutPage> {
               ),
             ),
           ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.logoutPage),
       ),
       body: const AccessWidget(),

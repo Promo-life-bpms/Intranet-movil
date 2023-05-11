@@ -8,7 +8,8 @@ import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:intranet_movil/widget/skeletons/list_view_employe.dart';
 
 class EmployeeMonthPage extends StatefulWidget {
-  const EmployeeMonthPage({Key? key, required this.monthEmployeeData }) : super(key: key);
+  const EmployeeMonthPage({Key? key, required this.monthEmployeeData})
+      : super(key: key);
   final List<MonthEmployeeModel>? monthEmployeeData;
 
   @override
@@ -22,16 +23,16 @@ class _HomeState extends State<EmployeeMonthPage> {
   @override
   void initState() {
     super.initState();
-     if(widget.monthEmployeeData!.isNotEmpty){
+    if (widget.monthEmployeeData!.isNotEmpty) {
       _monthEmployeeList = widget.monthEmployeeData;
-    }else{
+    } else {
       _getData();
     }
-    
   }
 
   void _getData() async {
-    _monthEmployeeModel = (await ApiMonthEmployeeService().getMonthEmployee())!.cast<MonthEmployeeModel>();
+    _monthEmployeeModel = (await ApiMonthEmployeeService().getMonthEmployee())!
+        .cast<MonthEmployeeModel>();
     setState(() {
       _monthEmployeeList = _monthEmployeeModel;
     });
@@ -43,7 +44,7 @@ class _HomeState extends State<EmployeeMonthPage> {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        actions: [
+        /* actions: [
           Padding(
               padding:const  EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -56,11 +57,11 @@ class _HomeState extends State<EmployeeMonthPage> {
                 ),
               ),
             ),
-        ],
+        ], */
         title: const Text(StringIntranetConstants.monthPage),
       ),
       body: _monthEmployeeList == null || _monthEmployeeList!.isEmpty
-          ? const ListviewEmploye() //Skeleton 
+          ? const ListviewEmploye() //Skeleton
           : EmployeeMonthBuilder(
               employeeMonthData: List<MonthEmployeeModel>.generate(
                   _monthEmployeeList!.length,

@@ -288,7 +288,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       selectedItem(context, 9);
                     },
                   ),
-                  ListTile(
+                  /* ListTile(
                     leading: const Icon(Icons.settings),
                     title: const Text(StringIntranetConstants.settingsPage),
                     selected: (_selectedDrawerItem == 10),
@@ -296,7 +296,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     onTap: () {
                       selectedItem(context, 10);
                     },
-                  ),
+                  ), */
                   ListTile(
                     leading: const Icon(Icons.exit_to_app),
                     title: const Text(StringIntranetConstants.logoutPage),
@@ -399,13 +399,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             MaterialPageRoute(builder: (context) => const AccessPage()),
             ModalRoute.withName("/AccesPage"));
         break;
-      case 10:
+      /*    case 10:
         _selectedDrawerItem = index;
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const SettingsPage()),
             ModalRoute.withName("/Settings"));
-        break;
+        break; */
       case 11:
         _selectedDrawerItem = index;
         Navigator.pushAndRemoveUntil(
