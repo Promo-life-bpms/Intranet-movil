@@ -276,17 +276,17 @@ class _HomeState extends State<HomePage> {
                                 onPressed: ((() => paginatorNext())),
                                 child: const Text("VER MAS"),
                                 style: ElevatedButton.styleFrom(
-                                    onPrimary:
+                                    backgroundColor:
                                         ColorIntranetConstants.primaryColorDark,
-                                    primary: Colors.white),
+                                    foregroundColor: Colors.white),
                               )
                             : ElevatedButton(
                                 onPressed: (() {}),
                                 child: const Text("VER MAS"),
                                 style: ElevatedButton.styleFrom(
-                                    primary: ColorIntranetConstants
+                                    foregroundColor: ColorIntranetConstants
                                         .backgroundColorDark,
-                                    onPrimary: Colors.black),
+                                    backgroundColor: Colors.black),
                               )
                       ],
                     ),

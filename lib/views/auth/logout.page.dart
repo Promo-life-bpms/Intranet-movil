@@ -74,7 +74,8 @@ class AccessWidget extends StatelessWidget {
                   child: ElevatedButton(
                     child: const Text("CERRAR SESIÓN"),
                     style: ElevatedButton.styleFrom(
-                        primary: ColorIntranetConstants.primaryColorNormal),
+                        backgroundColor:
+                            ColorIntranetConstants.primaryColorNormal),
                     onPressed: () {
                       LogoutAlertDialog().showAlertDialog(context);
                     },

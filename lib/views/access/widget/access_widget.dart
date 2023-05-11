@@ -48,7 +48,8 @@ class _AccessCardState extends State<AccessCard> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: ColorIntranetConstants.primaryColorNormal),
+                          backgroundColor:
+                              ColorIntranetConstants.primaryColorNormal),
                       onPressed: () {
                         LaunchToInternet.launchURL(
                             widget.accessData[0].accLink, context);

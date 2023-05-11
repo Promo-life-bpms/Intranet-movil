@@ -168,8 +168,8 @@ class _MyHomePageState extends State<RequestPage> {
                                     Flexible(
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          onPrimary: Colors.white,
-                                          primary: ColorIntranetConstants
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: ColorIntranetConstants
                                               .primaryColorNormal, // foreground
                                         ),
                                         onPressed: () {
@@ -203,8 +203,8 @@ class _MyHomePageState extends State<RequestPage> {
                               height: 40,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  onPrimary: Colors.white,
-                                  primary: ColorIntranetConstants
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: ColorIntranetConstants
                                       .primaryColorNormal, // foreground
                                 ),
                                 onPressed: () {
@@ -386,8 +386,8 @@ class _MyHomePageState extends State<RequestPage> {
                         height: 60,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            onPrimary: Colors.white,
-                            primary: ColorIntranetConstants
+                            foregroundColor: Colors.white,
+                            backgroundColor: ColorIntranetConstants
                                 .primaryColorDark, // foreground
                           ),
                           onPressed: () {

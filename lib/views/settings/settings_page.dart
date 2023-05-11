@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class _LogoutState extends State<SettingsPage> {
     super.initState();
   }
 
-  Future<Bool?> getNotificationStatus() async {
+  Future<bool?> getNotificationStatus() async {
     final prefs = await SharedPreferences.getInstance();
     bool? isEnableNotification = prefs.getBool('isEnableNotification');
 

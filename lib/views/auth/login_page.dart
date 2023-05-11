@@ -123,8 +123,9 @@ class LoginFormState extends State<LoginForm> {
                                         child: ElevatedButton(
                                           child: const Text('INICIAR SESIÓN'),
                                           style: ElevatedButton.styleFrom(
-                                              primary: ColorIntranetConstants
-                                                  .primaryColorNormal),
+                                              backgroundColor:
+                                                  ColorIntranetConstants
+                                                      .primaryColorNormal),
                                           onPressed: () {
                                             if (_formKey.currentState!
                                                 .validate()) {

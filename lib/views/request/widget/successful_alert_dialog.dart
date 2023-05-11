@@ -69,8 +69,8 @@ class SuccessfulAlertDialog {
                                 height: 60,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    onPrimary: Colors.white,
-                                    primary: ColorIntranetConstants
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: ColorIntranetConstants
                                         .primaryColorNormal, // foreground
                                   ),
                                   onPressed: () {

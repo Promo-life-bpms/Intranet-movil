@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/directory.dart';
 import 'package:intranet_movil/utils/constants.dart';
@@ -43,9 +43,9 @@ class _UserChatCardState extends State<UserChatCard> {
                 width: 50,
                 height: 50,
                 child: widget.userData[0].photo == "img/default_user.png"
-                    ? Badge(
+                    ? badge.Badge(
                         toAnimate: true,
-                        position: BadgePosition.topEnd(top: 38, end: 8),
+                        position: badge.BadgePosition.topEnd(top: 38, end: 8),
                         badgeColor: widget.userData[0].onlineStatus == true
                             ? Colors.green
                             : Colors.red,
@@ -54,9 +54,9 @@ class _UserChatCardState extends State<UserChatCard> {
                               ColorIntranetConstants.backgroundColorNormal,
                         ),
                       )
-                    : Badge(
+                    : badge.Badge(
                         toAnimate: true,
-                        position: BadgePosition.topEnd(top: 38, end: 8),
+                        position: badge.BadgePosition.topEnd(top: 38, end: 8),
                         badgeColor: widget.userData[0].onlineStatus == true
                             ? Colors.green
                             : Colors.red,

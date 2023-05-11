@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -269,9 +269,9 @@ class _PublicationContainerState extends State<PublicationContainer> {
                             widget.publicationToLikeData[0].isLike == false
                         ? Row(
                             children: [
-                              Badge(
+                              badge.Badge(
                                 toAnimate: true,
-                                position: BadgePosition.bottomEnd(),
+                                position: badge.BadgePosition.bottomEnd(),
                                 badgeContent: Text(
                                   widget.publicationToLikeData[0].likes
                                       .toString(),
@@ -298,9 +298,9 @@ class _PublicationContainerState extends State<PublicationContainer> {
                           )
                         : Row(
                             children: [
-                              Badge(
+                              badge.Badge(
                                 toAnimate: true,
-                                position: BadgePosition.bottomEnd(),
+                                position: badge.BadgePosition.bottomEnd(),
                                 badgeContent: Text(
                                   widget.publicationToLikeData[0].likes
                                       .toString(),
