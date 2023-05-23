@@ -12,6 +12,10 @@ import 'package:intranet_movil/views/auth/login_page.dart';
 import 'package:intranet_movil/views/home/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -35,13 +39,23 @@ class _HomeState extends State<MyApp> {
   late String? _token = "";
 
   late String validator = "";
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   void initState() {
     super.initState();
+    initFirebase();
     createNotificationChannel();
     _getData();
     _getHomeData();
+  }
+
+  void initFirebase() async{
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   void _getData() async {
@@ -73,6 +87,7 @@ class _HomeState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorObservers: <NavigatorObserver>[observer],
         debugShowCheckedModeBanner: false,
         title: 'Login',
         //Tema custom de la aplicacion
@@ -87,6 +102,7 @@ class _HomeState extends State<MyApp> {
             appBarTheme: const AppBarTheme(
                 backgroundColor: ColorIntranetConstants.primaryColorLight)),
         home: Scaffold(
+          
             body: _token == null
                 ? Center(
                     //Widget que valida si esta autenticado o no

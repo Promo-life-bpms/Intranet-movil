@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "828358944958-k7oi7bn98rcp2fe4oaljgt40bas63nkv.apps.googleusercontent.com",
+              "client_id": "828358944958-1i9e50svnihluli4nf5i82870ofpsf67.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.intranetMovil"
+                "bundle_id": "com.promolife.intranet-movil-unlis"
               }
             }
           ]
@@ -67,10 +67,10 @@
               "client_type": 3
             },
             {
-              "client_id": "828358944958-k7oi7bn98rcp2fe4oaljgt40bas63nkv.apps.googleusercontent.com",
+              "client_id": "828358944958-1i9e50svnihluli4nf5i82870ofpsf67.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.intranetMovil"
+                "bundle_id": "com.promolife.intranet-movil-unlis"
               }
             }
           ]
