@@ -1,4 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intranet_movil/model/birthday.dart';
 import 'package:intranet_movil/model/communique.dart';
 import 'package:intranet_movil/model/user_model.dart';
@@ -16,12 +18,46 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+}
 
-void main() {
+
+/* void main() {
   runApp(ChangeNotifierProvider(
     create: (BuildContext context) => AuthProvider(),
     child: const MyApp(),
   ));
+  
+} */
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'C1', // id
+  'Notificaciones', // title
+  description: 'Canal de notificaciones para las solicitudes', // description
+  importance: Importance.high, // importance must be at low or higher level
+);
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+ 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+ 
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -43,20 +79,102 @@ class _HomeState extends State<MyApp> {
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
 
-  @override
+
+
+  String messageTitle = "Empty";
+  String notificationAlert = "alert";
+
+
+ /*  @override
   void initState() {
     super.initState();
-    initFirebase();
-    createNotificationChannel();
-    _getData();
+  
+     createNotificationChannel();
+     _getData();
     _getHomeData();
+   
+  } */
+
+   void initState() {
+    super.initState();
+ getToken();
+     _getData();
+    _getHomeData();
+
+
+    var initializationSettingsAndroid =
+         AndroidInitializationSettings('ic_launcher');
+    var initialzationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initialzationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+ 
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                /* channel.description, */
+                color: Colors.blue,
+                // TODO add a proper drawable resource to android, for now using
+                //      one that already exists in example app.
+                icon: "@mipmap/ic_launcher",
+              ),
+            ));
+      }
+    });
+ 
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+          context: context,
+            // context: context,
+            builder: (_) {
+          return AlertDialog(
+            title: Text("Hola"),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text("Esto es una notificacion")],
+              ),
+            ),
+          );
+        });
+      }
+    });
+     
+    getToken();
   }
+ 
+ 
+late String token;
+getToken() async {
+  _token = await FirebaseMessaging.instance.getToken();
+  if(_token !=null){
+    _token = token;
+
+    print("TOKEEEEEEEEEEEEEEEEEEN");
+    print(_token);
+  }
+}
+
 
   void initFirebase() async{
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
+
 
   void _getData() async {
     final prefs = await SharedPreferences.getInstance();
