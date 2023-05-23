@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "828358944958",
+    "project_id": "intranet-movil",
+    "storage_bucket": "intranet-movil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828358944958:android:537157baf02259b75856ef",
+        "android_client_info": {
+          "package_name": "com.example.intranet_movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828358944958-eb7ht5rdif4cnlkuq52rg5btlsp7q11p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxU2nuK7Ti4jQ3SJ3-dpQHnc0RixkxGm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828358944958-eb7ht5rdif4cnlkuq52rg5btlsp7q11p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828358944958-k7oi7bn98rcp2fe4oaljgt40bas63nkv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.intranetMovil"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828358944958:android:93a9b8331126b8f25856ef",
+        "android_client_info": {
+          "package_name": "com.promolife.intranet_movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828358944958-eb7ht5rdif4cnlkuq52rg5btlsp7q11p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxU2nuK7Ti4jQ3SJ3-dpQHnc0RixkxGm8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828358944958-eb7ht5rdif4cnlkuq52rg5btlsp7q11p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828358944958-k7oi7bn98rcp2fe4oaljgt40bas63nkv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.intranetMovil"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
