@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:intranet_movil/firebase_options.dart';
 import 'package:intranet_movil/model/birthday.dart';
 import 'package:intranet_movil/model/communique.dart';
 import 'package:intranet_movil/model/user_model.dart';
@@ -25,7 +28,52 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
-void main() {
+void main()async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
+
+final fcmToken = await FirebaseMessaging.instance.getToken();
+    
+    print('FCM TOKEN');
+    print(fcmToken);
+    FirebaseMessaging.instance.onTokenRefresh
+        .listen((fcmToken) {
+          print('FIREBASE TOKEN');
+          print(fcmToken);
+        })
+        .onError((err) {
+          // Error getting token.
+        });
+
+
+
+FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  print('Got a message whilst in the foreground!');
+  print('Message data: ${message.data}');
+
+  if (message.notification != null) {
+    print('MENSAJEEEEE');
+    print(message.from);
+
+    print('Message also contained a notification: ${ message.data.values}');
+  }
+});
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(ChangeNotifierProvider(
     create: (BuildContext context) => AuthProvider(),
@@ -59,41 +107,12 @@ class _HomeState extends State<MyApp> {
   void initState() {
     super.initState();
     createNotificationChannel();
-    firebaseIOSPermissions();
+  
     firebaseMensajesPrimerPlano();
     _getData();
     _getHomeData();
   }
 
-  void firebaseGetToken()async{
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    print('FCM TOKEN');
-    print(fcmToken);
-    FirebaseMessaging.instance.onTokenRefresh
-        .listen((fcmToken) {
-          print('FIREBASE TOKEN');
-          print(fcmToken);
-        })
-        .onError((err) {
-          // Error getting token.
-        });
-  }
-
-  void firebaseIOSPermissions() async{
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    print('User granted permission: ${settings.authorizationStatus}');
-  }
 
   void firebaseMensajesPrimerPlano() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
