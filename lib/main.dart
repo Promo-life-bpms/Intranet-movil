@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intranet_movil/firebase_options.dart';
 import 'package:intranet_movil/model/birthday.dart';
 import 'package:intranet_movil/model/communique.dart';
@@ -11,6 +12,7 @@ import 'package:intranet_movil/services/api_birthday.dart';
 import 'package:intranet_movil/services/api_communique.dart';
 import 'package:intranet_movil/services/api_user.dart';
 import 'package:intranet_movil/services/api_auth.dart';
+import 'package:intranet_movil/services/notifications.dart';
 import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/auth/login_page.dart';
@@ -28,11 +30,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
+
 void main()async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    await Firebase.initializeApp();
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     NotificationSettings settings = await messaging.requestPermission(
@@ -67,12 +70,18 @@ FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('Message data: ${message.data}');
 
   if (message.notification != null) {
-    print('MENSAJEEEEE');
-    print(message.from);
+    Map<String, dynamic> parsedData = jsonDecode(message.data.toString());
+    String myStringData = json.encode(message.data);
 
-    print('Message also contained a notification: ${ message.data.values}');
+    print (parsedData.toString());
+    print (myStringData.toString());
+    print('Message also contained a notification: ${ message.messageType.toString() }');
+
+pendingRequestNotification(); 
   }
 });
+
+
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(ChangeNotifierProvider(
@@ -107,7 +116,6 @@ class _HomeState extends State<MyApp> {
   void initState() {
     super.initState();
     createNotificationChannel();
-  
     firebaseMensajesPrimerPlano();
     _getData();
     _getHomeData();
