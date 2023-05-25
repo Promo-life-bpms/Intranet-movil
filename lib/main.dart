@@ -1,9 +1,7 @@
-import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intranet_movil/firebase_options.dart';
 import 'package:intranet_movil/model/birthday.dart';
 import 'package:intranet_movil/model/communique.dart';
@@ -27,16 +25,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print("Handling a background message: ${message.messageId}");
+  print("Handling a background message: ${message.data}");
 }
 
 
-void main()async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+void firebaseRequestPermissions() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
@@ -48,40 +43,48 @@ void main()async {
       sound: true,
     );
 
-    print('User granted permission: ${settings.authorizationStatus}');
+    print('PERMISOS DE USUARIO: ${settings.authorizationStatus}');
+}
 
-final fcmToken = await FirebaseMessaging.instance.getToken();
-    
-    print('FCM TOKEN');
-    print(fcmToken);
-    FirebaseMessaging.instance.onTokenRefresh
-        .listen((fcmToken) {
-          print('FIREBASE TOKEN');
-          print(fcmToken);
-        })
-        .onError((err) {
-          // Error getting token.
-        });
-
-
-
-FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+void firebaseMessageListener() {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('Got a message whilst in the foreground!');
   print('Message data: ${message.data}');
 
   if (message.notification != null) {
-    Map<String, dynamic> parsedData = jsonDecode(message.data.toString());
-    String myStringData = json.encode(message.data);
-
-    print (parsedData.toString());
-    print (myStringData.toString());
+  
     print('Message also contained a notification: ${ message.messageType.toString() }');
-
-pendingRequestNotification(); 
+    pendingRequestNotification(); 
   }
-});
+  });
+}
+
+void firebaseGetFCMToken() async {
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print('FCM TOKEN');
+  print(fcmToken);
+  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+    print('FIREBASE TOKEN');
+    print(fcmToken);
+  }).onError((err) {
+      print("ERROR AL OBTENR EL TOKEN");
+  });
+}
+
+void main()async {
 
 
+  //Inicializar servicios de firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  //Escucha de notificaciones y token
+  firebaseGetFCMToken();
+  firebaseMessageListener(); 
+  firebaseRequestPermissions();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(ChangeNotifierProvider(
@@ -89,12 +92,6 @@ pendingRequestNotification();
     child: const MyApp()
       ));
 }
-/* void main() {
-  runApp(ChangeNotifierProvider(
-    create: (BuildContext context) => AuthProvider(),
-    child: const MyApp(),
-  ));
-} */
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -116,26 +113,17 @@ class _HomeState extends State<MyApp> {
   void initState() {
     super.initState();
     createNotificationChannel();
-    firebaseMensajesPrimerPlano();
     _getData();
     _getHomeData();
+
+      firebaseGetFCMToken();
+      firebaseMessageListener(); 
+      firebaseRequestPermissions();
   }
 
 
-  void firebaseMensajesPrimerPlano() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-    }
-  });
-  }
 
   
-
-
   void _getData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
