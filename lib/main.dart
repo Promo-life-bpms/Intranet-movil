@@ -10,6 +10,7 @@ import 'package:intranet_movil/services/api_birthday.dart';
 import 'package:intranet_movil/services/api_communique.dart';
 import 'package:intranet_movil/services/api_user.dart';
 import 'package:intranet_movil/services/api_auth.dart';
+import 'package:intranet_movil/services/firebase_notifications.dart';
 import 'package:intranet_movil/services/notifications.dart';
 import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
@@ -38,7 +39,7 @@ void firebaseRequestPermissions() async {
       announcement: false,
       badge: true,
       carPlay: false,
-      criticalAlert: false,
+      criticalAlert: true,
       provisional: false,
       sound: true,
     );
@@ -49,12 +50,17 @@ void firebaseRequestPermissions() async {
 void firebaseMessageListener() {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('Got a message whilst in the foreground!');
-  print('Message data: ${message.data}');
-
-  if (message.notification != null) {
+  print('Message data: ${message.data.toString()}');
   
-    print('Message also contained a notification: ${ message.messageType.toString() }');
-    pendingRequestNotification(); 
+
+ /*  Map<String, dynamic> foregrowndMessage =  */
+  if (message.notification != null) {
+    String? title = message.notification?.title.toString();
+    String? description = message.notification?.body.toString();
+ 
+    testFirebaseNotification(title, description);
+    print('Message also contained a notification: }');
+    /* pendingRequestNotification();  */
   }
   });
 }
@@ -115,10 +121,6 @@ class _HomeState extends State<MyApp> {
     createNotificationChannel();
     _getData();
     _getHomeData();
-
-      firebaseGetFCMToken();
-      firebaseMessageListener(); 
-      firebaseRequestPermissions();
   }
 
 

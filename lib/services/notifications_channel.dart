@@ -9,7 +9,7 @@ Future createNotificationChannel() async {
     'Channel01',
     'Solicitudes',
     description: 'Canal de notificaciones para las solicitudes',
-    importance: Importance.max,
+    importance: Importance.high,
   );
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
