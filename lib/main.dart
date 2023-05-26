@@ -32,8 +32,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void firebaseRequestPermissions() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -65,6 +63,12 @@ void firebaseMessageListener() {
   });
 }
 
+void subToTopics()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.subscribeToTopic('PUBLICACIONES');
+}
+
 void firebaseGetFCMToken() async {
   final fcmToken = await FirebaseMessaging.instance.getToken();
   print('FCM TOKEN');
@@ -91,6 +95,7 @@ void main()async {
   firebaseGetFCMToken();
   firebaseMessageListener(); 
   firebaseRequestPermissions();
+  subToTopics();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(ChangeNotifierProvider(
