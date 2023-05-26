@@ -10,8 +10,7 @@ import 'package:intranet_movil/services/api_birthday.dart';
 import 'package:intranet_movil/services/api_communique.dart';
 import 'package:intranet_movil/services/api_user.dart';
 import 'package:intranet_movil/services/api_auth.dart';
-import 'package:intranet_movil/services/firebase_notifications.dart';
-import 'package:intranet_movil/services/notifications.dart';
+import 'package:intranet_movil/services/fiirebase_settings.dart';
 import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/auth/login_page.dart';
@@ -19,85 +18,17 @@ import 'package:intranet_movil/views/home/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//Segundo plano
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-
-  print("Handling a background message: ${message.data}");
-}
-
-
-void firebaseRequestPermissions() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: true,
-      provisional: false,
-      sound: true,
-    );
-
-    print('PERMISOS DE USUARIO: ${settings.authorizationStatus}');
-}
-
-void firebaseMessageListener() {
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  print('Got a message whilst in the foreground!');
-  print('Message data: ${message.data.toString()}');
-  
-
- /*  Map<String, dynamic> foregrowndMessage =  */
-  if (message.notification != null) {
-    String? title = message.notification?.title.toString();
-    String? description = message.notification?.body.toString();
- 
-    testFirebaseNotification(title, description);
-    print('Message also contained a notification: }');
-    /* pendingRequestNotification();  */
-  }
-  });
-}
-
-void subToTopics()async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.subscribeToTopic('PUBLICACIONES');
-}
-
-void firebaseGetFCMToken() async {
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print('FCM TOKEN');
-  print(fcmToken);
-  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-    print('FIREBASE TOKEN');
-    print(fcmToken);
-  }).onError((err) {
-      print("ERROR AL OBTENR EL TOKEN");
-  });
-}
-
 void main()async {
-
-
-  //Inicializar servicios de firebase
+  
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await Firebase.initializeApp();
+  FirebaseSettings().initFirebaseService();
+  FirebaseSettings().getFirebaseToken();
+  FirebaseSettings().configFirebaseNotifications();
+  FirebaseSettings().configFirebaseGlobalTopics();
+  FirebaseSettings().configFirebaseMessageListener();
+  FirebaseSettings().configFirebaseBackgroundMessageListener();
 
-  //Escucha de notificaciones y token
-  firebaseGetFCMToken();
-  firebaseMessageListener(); 
-  firebaseRequestPermissions();
-  subToTopics();
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(ChangeNotifierProvider(
     create: (BuildContext context) => AuthProvider(),
     child: const MyApp()
