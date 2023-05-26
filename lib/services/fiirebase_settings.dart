@@ -73,8 +73,8 @@ class FirebaseSettings{
     await FirebaseMessaging.instance.subscribeToTopic('COMUNICADOS');
   }
 
-  void configFirebasePersonalTopics(){
-    
+  void configFirebasePersonalTopics(String idUser) async{
+      await FirebaseMessaging.instance.subscribeToTopic(idUser);
   }
 
 

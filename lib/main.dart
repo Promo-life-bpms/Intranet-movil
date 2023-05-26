@@ -56,11 +56,7 @@ class _HomeState extends State<MyApp> {
     super.initState();
     createNotificationChannel();
     _getData();
-    _getHomeData();
   }
-
-
-
   
   void _getData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -73,13 +69,11 @@ class _HomeState extends State<MyApp> {
     if (_userModel!.isNotEmpty) {
       setState(() {
         validator = "hasData";
+
+        FirebaseSettings().configFirebasePersonalTopics(_userModel![0].id.toString());
       });
     }
 
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-  }
-
-  void _getHomeData() async {
     _brithdayModel =
         (await ApiBrithdayService().getBrithday())!.cast<BirthdayModel>();
     _communiqueModel =

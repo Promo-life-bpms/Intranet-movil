@@ -7,6 +7,7 @@ import 'package:intranet_movil/services/api_birthday.dart';
 import 'package:intranet_movil/services/api_communique.dart';
 import 'package:intranet_movil/services/api_publications.dart';
 import 'package:intranet_movil/services/api_user.dart';
+import 'package:intranet_movil/services/fiirebase_settings.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/home/widget/birthday_home_builder.dart';
@@ -118,6 +119,14 @@ class _HomeState extends State<HomePage> {
       _publicationList = _publicationModel;
       _publicationListToLike = _publicationModel;
     });
+    
+    if(_userList!=null || _userList!.isNotEmpty){
+
+      setState(() {
+        
+      });
+      FirebaseSettings().configFirebasePersonalTopics(_userList![0].id.toString());
+    }
 
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
