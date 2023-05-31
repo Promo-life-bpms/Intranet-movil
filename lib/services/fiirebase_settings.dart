@@ -75,6 +75,7 @@ class FirebaseSettings{
 
   void configFirebasePersonalTopics(String idUser) async{
       await FirebaseMessaging.instance.subscribeToTopic(idUser);
+      print("AHORA ESTA SUBSCRITO AL TOPIC: " + idUser.toString());
   }
 
 

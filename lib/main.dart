@@ -69,7 +69,6 @@ class _HomeState extends State<MyApp> {
     if (_userModel!.isNotEmpty) {
       setState(() {
         validator = "hasData";
-
         FirebaseSettings().configFirebasePersonalTopics(_userModel![0].id.toString());
       });
     }

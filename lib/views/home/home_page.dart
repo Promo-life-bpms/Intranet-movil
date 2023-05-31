@@ -118,6 +118,9 @@ class _HomeState extends State<HomePage> {
       _communiqueList = _communiqueModel;
       _publicationList = _publicationModel;
       _publicationListToLike = _publicationModel;
+
+      FirebaseSettings().configFirebasePersonalTopics(_userlModel![0].id.toString());
+
     });
     
     if(_userList!=null || _userList!.isNotEmpty){
