@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/directory.dart';
 import 'package:intranet_movil/services/api_directory.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/organization/modules/organization.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 

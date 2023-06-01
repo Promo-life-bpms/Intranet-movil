@@ -11,9 +11,11 @@ class FirebaseSettings{
   }
 
   void getFirebaseToken()async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    // ignore: unused_local_variable
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    print('FCM TOKEN');
-    print(fcmToken);
+ 
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
     }).onError((err) {
         
@@ -43,6 +45,7 @@ class FirebaseSettings{
 
   void configFirebaseNotification()async{
     FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // ignore: unused_local_variable
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -56,6 +59,7 @@ class FirebaseSettings{
 
   void configFirebaseNotifications()async{
     FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // ignore: unused_local_variable
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -75,7 +79,6 @@ class FirebaseSettings{
 
   void configFirebasePersonalTopics(String idUser) async{
       await FirebaseMessaging.instance.subscribeToTopic(idUser);
-      print("AHORA ESTA SUBSCRITO AL TOPIC: " + idUser.toString());
   }
 
 

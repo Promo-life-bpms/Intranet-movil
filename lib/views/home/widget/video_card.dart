@@ -20,8 +20,7 @@ class _VideoState extends State<VideoCard> {
     super.initState();
     _controller = VideoPlayerController.network(
         ApiIntranetConstans.baseUrl + widget.videoLink)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      ..initialize().then((_)async {
         setState(() {
           _controller.setPlaybackSpeed(0);
         });

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/employee.dart';
 import 'package:intranet_movil/services/api_employee.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/employee_month/widget/employee_month_builder.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:intranet_movil/widget/skeletons/list_view_employe.dart';

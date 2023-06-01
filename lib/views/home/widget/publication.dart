@@ -66,11 +66,15 @@ class _PublicationContainerState extends State<PublicationContainer> {
                       child: SizedBox(
                         width: 40,
                         height: 40,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              ApiIntranetConstans.baseUrl +
-                                  widget.publicationData[0].photo),
-                        ),
+                        child: ApiIntranetConstans.baseUrl + widget.publicationData[0].photo == 'https://intranet.promolife.lat/img/default_user.png' ||ApiIntranetConstans.baseUrl + widget.publicationData[0].photo == 'https://intranet.promolife.lat/'  ?
+                          const CircleAvatar(
+                            backgroundColor:ColorIntranetConstants.primaryColorDark,
+                            backgroundImage: AssetImage('lib/assets/user.png'),
+                        ):
+                        CircleAvatar(
+                            backgroundImage:NetworkImage(ApiIntranetConstans.baseUrl + widget.publicationData[0].photo)
+                        )
+
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(

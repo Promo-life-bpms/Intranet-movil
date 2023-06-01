@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/access.dart';
 import 'package:intranet_movil/utils/constants.dart';
 import 'package:intranet_movil/views/access/widget/access_builder.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 
 void main() => runApp(const AccessPage());

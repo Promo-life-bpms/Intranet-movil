@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/request.dart';
 import 'package:intranet_movil/services/api_request.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/request/modules/approved.dart';
 import 'package:intranet_movil/views/request/modules/pending.dart';
 import 'package:intranet_movil/views/request/modules/process.dart';

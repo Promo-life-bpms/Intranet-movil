@@ -10,6 +10,7 @@ class ApiPublicationService {
       var url = Uri.parse(
           ApiIntranetConstans.baseUrl + ApiIntranetConstans.getPublication+data);
       var response = await http.get(url);
+
       if (response.statusCode == 200) {
         List<PublicationModel> _model = publicationModelFromJson(response.body);
         return _model;

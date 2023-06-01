@@ -130,6 +130,7 @@ class UserCardAlertDialog {
                                                           child: const Icon(
                                                               Icons.mail),
                                                           onTap: () {
+                                                            // ignore: deprecated_member_use
                                                             launch(
                                                                 "mailto://${data[index].data}");
                                                           },
@@ -140,6 +141,7 @@ class UserCardAlertDialog {
                                                                     right:
                                                                         8.0)),
                                                         SelectableLinkify(
+                                                          // ignore: deprecated_member_use
                                                           onOpen: (link) => launch(
                                                               "mailto://${data[index].data}"),
                                                           text:
@@ -166,6 +168,7 @@ class UserCardAlertDialog {
                                                               child: const Icon(
                                                                   Icons.phone),
                                                               onTap: () {
+                                                                // ignore: deprecated_member_use
                                                                 launch(
                                                                     "tel://${data[index].data}");
                                                               },
@@ -177,6 +180,7 @@ class UserCardAlertDialog {
                                                                             8.0)),
                                                             SelectableLinkify(
                                                               onOpen: (link) =>
+                                                                  // ignore: deprecated_member_use
                                                                   launch(
                                                                       "tel://${data[index].data}"),
                                                               text: data[index]
@@ -204,6 +208,7 @@ class UserCardAlertDialog {
                                         InkWell(
                                           child: const Icon(Icons.mail),
                                           onTap: () {
+                                            // ignore: deprecated_member_use
                                             launch("mailto://$email");
                                           },
                                         ),
@@ -212,6 +217,7 @@ class UserCardAlertDialog {
                                                 EdgeInsets.only(right: 8.0)),
                                         SelectableLinkify(
                                           onOpen: (link) =>
+                                              // ignore: deprecated_member_use
                                               launch("mailto://$email"),
                                           text: email,
                                           style: const TextStyle(

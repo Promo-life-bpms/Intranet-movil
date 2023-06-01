@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/approve_request.dart';
 import 'package:intranet_movil/services/api_manager_request.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/manager/module/approved_manager_request.dart';
 import 'package:intranet_movil/views/manager/module/pending_manager_request.dart';
 import 'package:intranet_movil/views/manager/module/rejected_manager_request.dart';

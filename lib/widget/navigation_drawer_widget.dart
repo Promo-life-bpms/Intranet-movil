@@ -26,7 +26,6 @@ import 'package:intranet_movil/views/organization/organization_page.dart';
 import 'package:intranet_movil/views/profile/user.dart';
 import 'package:intranet_movil/views/request/request_main_page.dart';
 import 'package:intranet_movil/views/rh/rh_request_page.dart';
-import 'package:intranet_movil/views/settings/settings_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {

@@ -9,7 +9,6 @@ import 'package:intranet_movil/services/api_publications.dart';
 import 'package:intranet_movil/services/api_user.dart';
 import 'package:intranet_movil/services/fiirebase_settings.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/home/widget/birthday_home_builder.dart';
 import 'package:intranet_movil/views/home/widget/birthday_title_card.dart';
 import 'package:intranet_movil/views/home/widget/carousel_home_builder.dart';

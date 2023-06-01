@@ -26,14 +26,25 @@ class _UserBirthdayCardState extends State<UserBirthdayCard> {
                   child: Container(
                     width: 60,
                     height: 60.0,
-                    decoration: BoxDecoration(
+                    decoration:ApiIntranetConstans.baseUrl + widget.birthdayData[0].photo == 'https://intranet.promolife.lat/img/default_user.png' || ApiIntranetConstans.baseUrl +widget.birthdayData[0].photo == 'https://intranet.promolife.lat/' ?
+                    BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      image: const DecorationImage(
+                        image: AssetImage('lib/assets/user.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                    :
+                    BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       image: DecorationImage(
+                        
                         image: NetworkImage(ApiIntranetConstans.baseUrl +
                             widget.birthdayData[0].photo.toString()),
                         fit: BoxFit.cover,
                       ),
-                    ),
+                    )
+                    ,
                     child: const Align(
                       alignment: Alignment(0, 1.3),
                       child: SizedBox(

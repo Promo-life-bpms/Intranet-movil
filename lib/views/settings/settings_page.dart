@@ -4,10 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intranet_movil/services/notifications_background.dart';
 import 'package:intranet_movil/services/notifications_channel.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/request/request_main_page.dart';
 import 'package:intranet_movil/widget/navigation_drawer_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +36,7 @@ class _LogoutState extends State<SettingsPage> {
     super.initState();
   }
 
-  Future<bool?> getNotificationStatus() async {
+  Future getNotificationStatus() async {
     final prefs = await SharedPreferences.getInstance();
     bool? isEnableNotification = prefs.getBool('isEnableNotification');
 

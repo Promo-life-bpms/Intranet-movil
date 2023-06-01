@@ -24,9 +24,6 @@ class AuthProvider extends ChangeNotifier {
           'Accept': 'application/json',
         });
 
-        print("LOGIN RESPONSEEEEEE");
-        print(response.body);
-
     if (response.statusCode == 200) {
       String token = response.body;
       await saveToken(token);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/approve_request.dart';
 import 'package:intranet_movil/services/api_rh_request.dart';
 import 'package:intranet_movil/utils/constants.dart';
-import 'package:intranet_movil/views/chat/chat_page.dart';
 import 'package:intranet_movil/views/rh/module/approved_rh_request.dart';
 import 'package:intranet_movil/views/rh/module/pending_rh_request.dart';
 import 'package:intranet_movil/views/rh/module/rejected_rh_request.dart';
