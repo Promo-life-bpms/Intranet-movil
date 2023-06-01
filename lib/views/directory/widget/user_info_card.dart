@@ -40,11 +40,11 @@ class _UserInfoCardCardState extends State<UserInfoCard> {
                 child: SizedBox(
                     width: 50,
                     height: 50,
-                    child: widget.userData[0].photo == "img/default_user.png"
+                    child: ApiIntranetConstans.baseUrl + widget.userData[0].photo == 'https://intranet.promolife.lat/img/default_user.png' ||ApiIntranetConstans.baseUrl + widget.userData[0].photo == 'https://intranet.promolife.lat/' 
                         ? const CircleAvatar(
-                            backgroundColor:
-                                ColorIntranetConstants.backgroundColorNormal,
-                          )
+                            backgroundColor:ColorIntranetConstants.primaryColorDark,
+                            backgroundImage: AssetImage('lib/assets/user.png'),
+                        )
                         : 
                      CircleAvatar(
                       backgroundImage: NetworkImage(ApiIntranetConstans.baseUrl +
