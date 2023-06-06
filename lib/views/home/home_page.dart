@@ -118,16 +118,14 @@ class _HomeState extends State<HomePage> {
       _publicationList = _publicationModel;
       _publicationListToLike = _publicationModel;
 
-      FirebaseSettings().configFirebasePersonalTopics(_userlModel![0].id.toString());
-
+      FirebaseSettings()
+          .configFirebasePersonalTopics(_userlModel![0].id.toString());
     });
-    
-    if(_userList!=null || _userList!.isNotEmpty){
 
-      setState(() {
-        
-      });
-      FirebaseSettings().configFirebasePersonalTopics(_userList![0].id.toString());
+    if (_userList != null || _userList!.isNotEmpty) {
+      setState(() {});
+      FirebaseSettings()
+          .configFirebasePersonalTopics(_userList![0].id.toString());
     }
 
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -195,8 +193,8 @@ class _HomeState extends State<HomePage> {
                 children: [
                   //Publicaciones
                   _userList == null || _userList!.isEmpty
-                      ? Column(
-                          children: const [
+                      ? const Column(
+                          children: [
                             NoDataPublicationCard(),
                             Padding(padding: EdgeInsets.only(top: 8)),
                           ],
@@ -212,8 +210,8 @@ class _HomeState extends State<HomePage> {
                   _brithdayList == null ||
                           _brithdayList!.isEmpty ||
                           _brithdayList == []
-                      ? Column(
-                          children: const [
+                      ? const Column(
+                          children: [
                             BirthdayTitleCard(),
                             NoDataBirthdayHomeBuilder(),
                             Padding(padding: EdgeInsets.only(top: 8))
@@ -246,6 +244,8 @@ class _HomeState extends State<HomePage> {
                       ? Container(
                           color: Colors.white,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Padding(
                                 padding: EdgeInsets.only(top: 16),
@@ -259,6 +259,13 @@ class _HomeState extends State<HomePage> {
                                     width: 300,
                                     child: Lottie.asset(
                                         "lib/assets/fech_data.json")),
+                              ),
+                              const Padding(
+                                padding:  EdgeInsets.all(8.0),
+                                child: Text(
+                                  "¿Problemas al cargar las publicaciones? prueba iniciar sesion nuevamente",
+                                  style: TextStyle(fontSize: 16),
+                                ),
                               ),
                             ],
                           ))

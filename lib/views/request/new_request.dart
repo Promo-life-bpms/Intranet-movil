@@ -34,6 +34,8 @@ class _MyHomePageState extends State<RequestPage> {
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDate = DateTime.now();
 
+  int expirationDays = 0;
+
   final reason = TextEditingController();
   late String token = "";
   final _formKey = GlobalKey<FormState>();
@@ -79,6 +81,7 @@ class _MyHomePageState extends State<RequestPage> {
 
     //Obtiene el total de dias disponibles del endpoint y lo asigna  a la variable maxDays, mismo que sera utilizado en la variable daysToShow
 
+    expirationDays = _userlModel![0].daysAvailables;
     maxDays = _userlModel![0].daysAvailables;
     daysToShow = maxDays;
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
@@ -246,49 +249,42 @@ class _MyHomePageState extends State<RequestPage> {
                               ),
                             );
                           }),
-
-                      //Dias de expiracion
-                      dropdownvalue == 'Solicitar vacaciones'
-                          ? _userlModel![0].expiration.length == 1
-                              ? Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "Tienes ${_userlModel![0].expiration[0].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[0].cutoffDate} ",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : _userlModel![0].expiration.length == 2
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Tienes ${_userlModel![0].expiration[1].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[1].cutoffDate} ",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const Padding(
-                                              padding: EdgeInsets.only(top: 8)),
-                                          Text(
-                                            "Tienes ${_userlModel![0].expiration[0].daysAvailables} dias disponibles del periodo actual que vencen el ${_userlModel![0].expiration[0].cutoffDate} ",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : const Padding(padding: EdgeInsets.zero)
-                          : const Padding(padding: EdgeInsets.zero),
+                      _userlModel![0].expiration == null ||
+                              _userlModel![0].expiration.isEmpty
+                          ? const Padding(padding: EdgeInsets.zero)
+                          : ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.all(0),
+                              itemCount: _userlModel![0].expiration.length,
+                              itemBuilder: (context, index) {
+                                return
+                                    //Dias de expiracion
+                                    dropdownvalue == 'Solicitar vacaciones'
+                                        ? int.parse(_userlModel![0]
+                                                    .expiration[index]
+                                                    .daysAvailables) ==
+                                                0
+                                            ? const Padding(
+                                                padding: EdgeInsets.zero)
+                                            : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8),
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      "Tienes ${_userlModel![0].expiration[index].daysAvailables} dias disponibles que vencen el ${_userlModel![0].expiration[index].cutoffDate} ",
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                        : const Padding(
+                                            padding: EdgeInsets.zero);
+                              },
+                            ),
 
                       const Padding(padding: EdgeInsets.only(top: 24)),
                       // ignore: unnecessary_null_comparison
