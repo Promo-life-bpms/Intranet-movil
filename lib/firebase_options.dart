@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBxU2nuK7Ti4jQ3SJ3-dpQHnc0RixkxGm8',
-    appId: '1:828358944958:android:93a9b8331126b8f25856ef',
+    appId: '1:828358944958:android:b487ae39994c1e2f5856ef',
     messagingSenderId: '828358944958',
     projectId: 'intranet-movil',
     storageBucket: 'intranet-movil.appspot.com',
@@ -66,11 +66,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyC-L2UZ5ozaiVqOmkCipRUET3GOX1M7DZM',
-    appId: '1:828358944958:ios:215c6c19f0e376595856ef',
+    appId: '1:828358944958:ios:d798d38ddf9085625856ef',
     messagingSenderId: '828358944958',
     projectId: 'intranet-movil',
     storageBucket: 'intranet-movil.appspot.com',
-    iosClientId: '828358944958-1i9e50svnihluli4nf5i82870ofpsf67.apps.googleusercontent.com',
-    iosBundleId: 'com.promolife.intranet-movil-unlis',
+    iosClientId: '828358944958-3ssv2aihj6f89itiu5n1cdn17be8vtkm.apps.googleusercontent.com',
+    iosBundleId: 'com.promolife.intranet-movil-unlisted',
   );
 }

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>828358944958-1i9e50svnihluli4nf5i82870ofpsf67.apps.googleusercontent.com</string>
+	<string>828358944958-k7oi7bn98rcp2fe4oaljgt40bas63nkv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.828358944958-1i9e50svnihluli4nf5i82870ofpsf67</string>
+	<string>com.googleusercontent.apps.828358944958-k7oi7bn98rcp2fe4oaljgt40bas63nkv</string>
 	<key>API_KEY</key>
 	<string>AIzaSyC-L2UZ5ozaiVqOmkCipRUET3GOX1M7DZM</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.promolife.intranet-movil-unlis</string>
+	<string>com.example.intranetMovil</string>
 	<key>PROJECT_ID</key>
 	<string>intranet-movil</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:828358944958:ios:215c6c19f0e376595856ef</string>
+	<string>1:828358944958:ios:84d6da6f776ee3905856ef</string>
 </dict>
 </plist>

@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intranet_movil/model/birthday.dart';
@@ -16,8 +15,7 @@ import 'package:intranet_movil/views/home/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main()async {
-  
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseSettings().initFirebaseService();
@@ -28,9 +26,7 @@ void main()async {
   FirebaseSettings().configFirebaseBackgroundMessageListener();
 
   runApp(ChangeNotifierProvider(
-    create: (BuildContext context) => AuthProvider(),
-    child: const MyApp()
-      ));
+      create: (BuildContext context) => AuthProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -55,7 +51,7 @@ class _HomeState extends State<MyApp> {
     createNotificationChannel();
     _getData();
   }
-  
+
   void _getData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -67,7 +63,8 @@ class _HomeState extends State<MyApp> {
     if (_userModel!.isNotEmpty) {
       setState(() {
         validator = "hasData";
-        FirebaseSettings().configFirebasePersonalTopics(_userModel![0].id.toString());
+        FirebaseSettings()
+            .configFirebasePersonalTopics(_userModel![0].id.toString());
       });
     }
 
