@@ -26,6 +26,7 @@ import 'package:intranet_movil/views/organization/organization_page.dart';
 import 'package:intranet_movil/views/profile/user.dart';
 import 'package:intranet_movil/views/request/request_main_page.dart';
 import 'package:intranet_movil/views/rh/rh_request_page.dart';
+import 'package:intranet_movil/views/room/room.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
@@ -223,6 +224,16 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       selectedItem(context, 2);
                     },
                   ),
+
+                  ListTile(
+                    leading: const Icon(Icons.calendar_today),
+                    title: const Text(StringIntranetConstants.reservationPage),
+                    selectedColor: ColorIntranetConstants.primaryColorLight,
+                    selected: (_selectedDrawerItem == 12),
+                    onTap: () {
+                      selectedItem(context, 12);
+                    },
+                  ),
                   ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text(StringIntranetConstants.requestPage),
@@ -413,7 +424,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             ModalRoute.withName("/LogoutPage"));
 
         break;
-
+      case 12:
+      _selectedDrawerItem = index;
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const RoomPage()),
+          ModalRoute.withName("/Events"));
+      break;
       case 30:
         _selectedDrawerItem = index;
         Navigator.pushAndRemoveUntil(

@@ -56,6 +56,7 @@ class StringIntranetConstants {
   static const profilePage = "Mi cuenta";
   static const loginPage = "Iniciar sesión";
   static const settingsPage = "Configuración";
+  static const reservationPage = "Salas";
 
   /*  Manager */
   static const managerApproveRequest = "Autorizar solicitudes";
